@@ -187,7 +187,7 @@ CONFIG_PACKAGE_simple-obfs-client=n
 #CONFIG_KERNEL_TCP_FASTOPEN=y
 #CONFIG_KERNEL_TCP_FASTOPEN_KEYS=4
 CONFIG_KERNEL_CPU_FREQ_GOV_PERFORMANCE=y
-CONFIG_TARGET_SQUASHFS_BLOCK_SIZE=512
+CONFIG_TARGET_SQUASHFS_BLOCK_SIZE=1024
 CONFIG_KERNEL_FS_EXT4_DIRECT_IO=y
 #---------------------------------------------
 CONFIG_ATH11K_HW_CRYPTO=y
@@ -215,3 +215,8 @@ CONFIG_PACKAGE_kmod-qca-nss-vlan-filter=y
 #CONFIG_PACKAGE_kmod-qca-nss-drv-tls=n
 #CONFIG_PACKAGE_kmod-qca-nss-drv-dtls=n
 #CONFIG_PACKAGE_kmod-qca-nss-drv-ipsec=n
+CONFIG_PACKAGE_ppp-mod-pppoe=n
+CONFIG_PACKAGE_kmod-vxlan=n
+CONFIG_PACKAGE_sqm-scripts=n
+CONFIG_PACKAGE_kmod-gre=n
+CONFIG_PACKAGE_kmod-l2tp=n
