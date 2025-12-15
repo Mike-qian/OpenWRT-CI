@@ -237,3 +237,5 @@ CONFIG_MAC80211_NSS_REDIRECT=y
 #CONFIG_PACKAGE_sqm-scripts=n
 #CONFIG_PACKAGE_kmod-gre=n
 #CONFIG_PACKAGE_kmod-l2tp=n
+CONFIG_PACKAGE_kmod-qca-nss-drv-netlink=y
+CONFIG_PACKAGE_nss-utils=y
