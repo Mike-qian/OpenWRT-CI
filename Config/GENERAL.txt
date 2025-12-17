@@ -154,40 +154,45 @@ CONFIG_TARGET_OPTIMIZATION="-O2 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53
 
 CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -mtls-dialect=desc -falign-functions=16 -falign-loops=16 -frename-registers -fno-common -fplt -D__ARM_FEATURE_CRYPTO=1 -D__ARM_FEATURE_CRC32=1 -fomit-frame-pointer -Wl,-O1 -Wl,--as-needed -Wl,--gc-sections -Wl,--hash-style=gnu"
 #---------------------------------------------
-# 以下为与qca-nss硬件加密重叠的软加密项，已注释
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64-ce=y
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64-cbc=y
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64-ctr=y
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64-ecb=y
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64-gcm=y
-#CONFIG_PACKAGE_kmod-crypto-aes-arm64-xts=y
-#CONFIG_PACKAGE_kmod-crypto-sha1-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-sha256-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-sha512-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-sha2-arm64-ce=y
-#CONFIG_PACKAGE_kmod-crypto-sha3-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-chacha20-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-poly1305-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-chacha20poly1305-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-ghash-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-null-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-crc32-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-crc32c-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-crc64-arm64=y
-#CONFIG_PACKAGE_kmod-crypto-dev-qce=y
-#CONFIG_PACKAGE_kmod-crypto-dev-qce-aes=y
-#CONFIG_PACKAGE_kmod-crypto-dev-qce-sha=y
-#CONFIG_PACKAGE_kmod-crypto-dev-qce-chacha20poly1305=y
-#CONFIG_PACKAGE_kmod-crypto-neon=y
-#CONFIG_PACKAGE_kmod-crypto-lzo-neon=y
-#CONFIG_PACKAGE_kmod-crypto-zstd-neon=y
-#CONFIG_PACKAGE_kmod-crypto-hw=y
-#CONFIG_PACKAGE_kmod-crypto-hw-qcom=y
-#CONFIG_KERNEL_CRYPTO_DEV_QCE=y
-#CONFIG_KERNEL_CRYPTO_DEV_QCE_SKCIPHER=y
-#CONFIG_KERNEL_CRYPTO_DEV_QCE_AES=y
-#CONFIG_KERNEL_CRYPTO_DEV_QCE_SHA=y
+# ARM64 基础加速 (必选)
+CONFIG_PACKAGE_kmod-crypto-aes-arm64=y
+CONFIG_PACKAGE_kmod-crypto-aes-arm64-ce=y
+CONFIG_PACKAGE_kmod-crypto-aes-arm64-cbc=y
+CONFIG_PACKAGE_kmod-crypto-aes-arm64-ctr=y
+CONFIG_PACKAGE_kmod-crypto-aes-arm64-ecb=y
+CONFIG_PACKAGE_kmod-crypto-aes-arm64-gcm=y
+CONFIG_PACKAGE_kmod-crypto-aes-arm64-xts=y
+# 哈希算法加速 (必选)
+CONFIG_PACKAGE_kmod-crypto-sha1-arm64=y
+CONFIG_PACKAGE_kmod-crypto-sha256-arm64=y
+CONFIG_PACKAGE_kmod-crypto-sha512-arm64=y
+CONFIG_PACKAGE_kmod-crypto-sha2-arm64-ce=y
+CONFIG_PACKAGE_kmod-crypto-sha3-arm64=y
+CONFIG_PACKAGE_kmod-crypto-ghash-arm64=y
+# 现代加密算法 (推荐)
+CONFIG_PACKAGE_kmod-crypto-chacha20-arm64=y
+CONFIG_PACKAGE_kmod-crypto-poly1305-arm64=y
+CONFIG_PACKAGE_kmod-crypto-chacha20poly1305-arm64=y
+# 校验算法 (提升网络包处理效率)
+CONFIG_PACKAGE_kmod-crypto-crc32-arm64=y
+CONFIG_PACKAGE_kmod-crypto-crc32c-arm64=y
+CONFIG_PACKAGE_kmod-crypto-crc64-arm64=y
+# NEON 矢量优化 (提升压缩性能)
+CONFIG_PACKAGE_kmod-crypto-neon=y
+CONFIG_PACKAGE_kmod-crypto-lzo-neon=y
+CONFIG_PACKAGE_kmod-crypto-zstd-neon=y
+# 高通 QCE 硬件引擎专用 (IPQ8071A 灵魂所在)
+CONFIG_PACKAGE_kmod-crypto-hw=y
+CONFIG_PACKAGE_kmod-crypto-hw-qcom=y
+CONFIG_PACKAGE_kmod-crypto-dev-qce=y
+CONFIG_PACKAGE_kmod-crypto-dev-qce-aes=y
+CONFIG_PACKAGE_kmod-crypto-dev-qce-sha=y
+CONFIG_PACKAGE_kmod-crypto-dev-qce-chacha20poly1305=y
+# 内核级驱动选项 (确保 QCE 正常工作)
+CONFIG_KERNEL_CRYPTO_DEV_QCE=y
+CONFIG_KERNEL_CRYPTO_DEV_QCE_SKCIPHER=y
+CONFIG_KERNEL_CRYPTO_DEV_QCE_AES=y
+CONFIG_KERNEL_CRYPTO_DEV_QCE_SHA=y
 #---------------------------------------------
 CONFIG_PACKAGE_shadowsocks-rust-sslocal=n
 CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client=n
