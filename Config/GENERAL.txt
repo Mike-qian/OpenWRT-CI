@@ -269,7 +269,7 @@ CONFIG_PACKAGE_kmod-qca-nss-cfi=y
 CONFIG_DEFAULT_kmod-qca-nss-cfi-ocf=y
 CONFIG_DEFAULT_kmod-qca-edma=y
 CONFIG_PACKAGE_kmod-qca-mcs=y
-CONFIG_LUA_ECO_OPENSSL=y
+#CONFIG_LUA_ECO_OPENSSL=y
 #-----------------------------------------------------------
 #mesh组网
 #CONFIG_PACKAGE_wpad-openssl=n
