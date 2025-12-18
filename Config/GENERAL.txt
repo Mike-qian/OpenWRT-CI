@@ -153,8 +153,10 @@ CONFIG_TARGET_OPTIONS=y
 CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM=n
 #CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53"
 #CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53"
-CONFIG_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -falign-functions=16 -frename-registers -fomit-frame-pointer -Wl,-O1 -Wl,--as-needed"
-CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -falign-functions=16 -frename-registers -fomit-frame-pointer -Wl,-O1 -Wl,--as-needed"
+#CONFIG_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -falign-functions=16 -frename-registers -fomit-frame-pointer -Wl,-O1 -Wl,--as-needed"
+#CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -falign-functions=16 -frename-registers -fomit-frame-pointer -Wl,-O1 -Wl,--as-needed"
+CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -falign-functions=16 -falign-loops=16 -falign-jumps=16 -frename-registers -fomit-frame-pointer -flto -Wl,-O2 -Wl,--as-needed"
+CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mfix-cortex-a53-835769 -mfix-cortex-a53-843419 -falign-functions=16 -falign-loops=16 -falign-jumps=16 -frename-registers -fomit-frame-pointer -flto -Wl,-O2 -Wl,--as-needed"
 #---------------------------------------------
 # ARM64 基础加速 (必选)
 CONFIG_PACKAGE_kmod-crypto-aes-arm64=y
