@@ -268,3 +268,4 @@ CONFIG_NSS_ECM_UDP_ENABLE=y
 CONFIG_PACKAGE_kmod-qca-nss-cfi=y
 CONFIG_DEFAULT_kmod-qca-nss-cfi-ocf=y
 CONFIG_DEFAULT_kmod-qca-edma=y
+CONFIG_PACKAGE_kmod-qca-mcs=y
