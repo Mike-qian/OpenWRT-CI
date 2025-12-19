@@ -152,7 +152,7 @@ CONFIG_USE_MOLD=y
 CONFIG_TARGET_OPTIONS=y
 CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM=n
 CONFIG_OPENSSL_WITH_ARMV8_CRYPTO=y
-CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc+fp+simd -march=armv8-a+crypto+crc+fp+simd -mtune=cortex-a53 -mfloat-abi=hard -mstrict-align -fomit-frame-pointer -funroll-loops -falign-functions=32 -falign-loops=32 -falign-jumps=32 -finline-limit=10000 -fselective-scheduling -fsched-pressure -ffast-math -fno-math-errno -fno-trapping-math -fno-unwind-tables -fno-asynchronous-unwind-tables -fhonour-copts -ffunction-sections -fdata-sections -Wformat -Werror=format-security -Wa,--noexecstack -fPIC -DPIC -D__QCA_NSS__=1 -D__QCA_NSS_CRYPTO__=1 -DCRYPTDEV_SUPPORT_NSS=1 -DNSS_NETWORK_ACCEL=1 -DNDEBUG -D_FORTIFY_SOURCE=0 -flto=thin -Wl,--gc-sections -Wl,--strip-all -Wl,-O3"
+CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -fomit-frame-pointer -funroll-loops -falign-functions=32 -fselective-scheduling -ffunction-sections -fdata-sections -D__QCA_NSS__=1 -D__QCA_NSS_CRYPTO__=1 -flto=thin"
 #CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -falign-functions=16 -falign-loops=16"
 #---------------------------------------------
 # ARM64 基础加速 (必选)
