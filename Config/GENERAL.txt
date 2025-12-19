@@ -151,7 +151,7 @@ CONFIG_USE_LTO_THIN=y
 CONFIG_USE_MOLD=y
 CONFIG_TARGET_OPTIONS=y
 CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM=n
-CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -fno-semantic-interposition -fno-common -falign-functions=32c"
+CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -fno-semantic-interposition -fno-common -falign-functions=32"
 CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -fno-semantic-interposition -fno-common -falign-functions=32"
 #---------------------------------------------
 # ARM64 基础加速 (必选)
