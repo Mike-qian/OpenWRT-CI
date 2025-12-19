@@ -66,3 +66,19 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 		echo "qualcommax set up nowifi successfully!"
 	fi
 fi
+
+#关闭所有usb/sd功能
+sed -i 's/CONFIG_USB_SUPPORT=y/# CONFIG_USB_SUPPORT is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb3=y/# CONFIG_PACKAGE_kmod-usb3 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-dwc3=y/# CONFIG_PACKAGE_kmod-usb-dwc3 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-dwc3-qcom=y/# CONFIG_PACKAGE_kmod-usb-dwc3-qcom is not set/' .config
+sed -i 's/CONFIG_EMMC_SUPPORT=y/# CONFIG_EMMC_SUPPORT is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-mmc=y/# CONFIG_PACKAGE_kmod-mmc is not set/' .config
+sed -i 's/CONFIG_DEFAULT_automount=y/# CONFIG_DEFAULT_automount is not set/' .config
+sed -i 's/CONFIG_PACKAGE_automount=y/# CONFIG_PACKAGE_automount is not set/' .config
+sed -i 's/CONFIG_PACKAGE_block-mount=y/# CONFIG_PACKAGE_block-mount is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-fs-ext4=y/# CONFIG_PACKAGE_kmod-fs-ext4 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-fs-f2fs=y/# CONFIG_PACKAGE_kmod-fs-f2fs is not set/' .config
+sed -i 's/CONFIG_PACKAGE_fdisk=y/# CONFIG_PACKAGE_fdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_cfdisk=y/# CONFIG_PACKAGE_cfdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_lsblk=y/# CONFIG_PACKAGE_lsblk is not set/' .config
