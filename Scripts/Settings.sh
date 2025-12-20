@@ -66,3 +66,4 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 		echo "qualcommax set up nowifi successfully!"
 	fi
 fi
+curl -L https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/firmware/ath11k-firmware/Makefile -o package/firmware/ath11k-firmware/Makefile
