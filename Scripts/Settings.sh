@@ -108,5 +108,4 @@ sed -i 's/^CONFIG_BINUTILS_VERSION="2.44"/CONFIG_BINUTILS_USE_VERSION_2_45=y\nCO
 sed -i 's/^# CONFIG_GCC_USE_DEFAULT_VERSION is not set/CONFIG_GCC_USE_DEFAULT_VERSION=y/' .config # 确保默认版本被选中
 sed -i 's/^CONFIG_GCC_VERSION="14.3.0"/# CONFIG_GCC_USE_VERSION_14 is not set\nCONFIG_GCC_USE_VERSION_15=y\nCONFIG_GCC_VERSION="15.2.0"\nCONFIG_GCC_VERSION_15=y/' .config
 
-# 3. 修改 EXTRA_OPTIMIZATION
-sed -i 's/^CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt"/CONFIG_EXTRA_OPTIMIZATION="-fno-caller-saves -fno-plt -Ofast -pipe"/' .config
+
