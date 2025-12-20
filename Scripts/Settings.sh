@@ -66,4 +66,23 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 		echo "qualcommax set up nowifi successfully!"
 	fi
 fi
+
+#修复ath11k-firmware
 curl -L https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/firmware/ath11k-firmware/Makefile -o package/firmware/ath11k-firmware/Makefile
+
+#取消所有usb/sd卡功能
+sed -i 's/CONFIG_USB_SUPPORT=y/# CONFIG_USB_SUPPORT is not set/' .config
+sed -i 's/CONFIG_EMMC_SUPPORT=y/# CONFIG_EMMC_SUPPORT is not set/' .config
+sed -i 's/CONFIG_DEFAULT_automount=y/# CONFIG_DEFAULT_automount is not set/' .config
+sed -i 's/CONFIG_DEFAULT_kmod-usb3=y/# CONFIG_DEFAULT_kmod-usb3 is not set/' .config
+sed -i 's/CONFIG_DEFAULT_kmod-usb-dwc3=y/# CONFIG_DEFAULT_kmod-usb-dwc3 is not set/' .config
+sed -i 's/CONFIG_DEFAULT_kmod-usb-dwc3-qcom=y/# CONFIG_DEFAULT_kmod-usb-dwc3-qcom is not set/' .config
+sed -i 's/CONFIG_PACKAGE_blkid=y/# CONFIG_PACKAGE_blkid is not set/' .config
+sed -i 's/CONFIG_PACKAGE_fdisk=y/# CONFIG_PACKAGE_fdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_parted=y/# CONFIG_PACKAGE_parted is not set/' .config
+sed -i 's/CONFIG_PACKAGE_sfdisk=y/# CONFIG_PACKAGE_sfdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_cgdisk=y/# CONFIG_PACKAGE_cgdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_gdisk=y/# CONFIG_PACKAGE_gdisk is not set/' .config
+sed -i 's/CONFIG_DEFAULT_e2fsprogs=y/# CONFIG_DEFAULT_e2fsprogs is not set/' .config
+sed -i 's/CONFIG_DEFAULT_f2fs-tools=y/# CONFIG_DEFAULT_f2fs-tools is not set/' .config
+sed -i 's/CONFIG_PACKAGE_block-mount=y/# CONFIG_PACKAGE_block-mount is not set/' .config
