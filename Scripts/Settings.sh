@@ -100,12 +100,6 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
-sed -i 's/# CONFIG_TOOLCHAINOPTS is not set/CONFIG_TOOLCHAINOPTS=y/' .config
-# 1. 修改 BINUTILS 相关配置
-sed -i 's/^CONFIG_BINUTILS_VERSION_2_44=y/# CONFIG_BINUTILS_USE_VERSION_2_44 is not set/' .config
-sed -i 's/^CONFIG_BINUTILS_VERSION="2.44"/CONFIG_BINUTILS_USE_VERSION_2_45=y\nCONFIG_BINUTILS_VERSION="2.45"\nCONFIG_BINUTILS_VERSION_2_45=y/' .config
-# 2. 修改 GCC 相关配置
-sed -i 's/^# CONFIG_GCC_USE_DEFAULT_VERSION is not set/CONFIG_GCC_USE_DEFAULT_VERSION=y/' .config # 确保默认版本被选中
-sed -i 's/^CONFIG_GCC_VERSION="14.3.0"/# CONFIG_GCC_USE_VERSION_14 is not set\nCONFIG_GCC_USE_VERSION_15=y\nCONFIG_GCC_VERSION="15.2.0"\nCONFIG_GCC_VERSION_15=y/' .config
+
 
 
