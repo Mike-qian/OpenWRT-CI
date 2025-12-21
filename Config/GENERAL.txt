@@ -158,7 +158,7 @@ CONFIG_OPENSSL_WITH_ARMV8_CRYPTO=y
 
 #CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -U_FORTIFY_SOURCE -fstack-protector-strong -falign-functions=16"
 
-CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -falign-functions=32 -fno-stack-protector -U_FORTIFY_SOURCE -ffast-math -fno-plt -fno-semantic-interposition -fno-common"
+CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -falign-functions=32 -fno-stack-protector -U_FORTIFY_SOURCE -ffast-math -fno-semantic-interposition -fno-common"
 
 #ONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -fomit-frame-pointer -falign-functions=32 -ffunction-sections -fdata-sections -D__QCA_NSS__=1 -D__QCA_NSS_CRYPTO__=1 -fgcse-lm -fno-caller-saves -fno-plt -fivopts"
 #CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -falign-functions=16 -falign-loops=16"
