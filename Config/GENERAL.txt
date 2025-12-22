@@ -160,7 +160,7 @@ CONFIG_OPENSSL_WITH_ARMV8_CRYPTO=y
 
 #CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -fno-fat-lto-objects -fuse-linker-plugin -funroll-loops -falign-functions=32 -falign-jumps=32 -falign-loops=32 -ffunction-sections -fdata-sections -fno-caller-saves -fno-plt -D__QCA_NSS__=1 -D__QCA_NSS_CRYPTO__=1 -fgcse-lm -fgcse-sm -fmodulo-sched -fomit-frame-pointer"
 
-CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -fno-caller-saves -fno-plt -fPIC -mcpu=cortex-a53+crypto+crc -march=armv8-a+crypto+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -ffast-math -frename-registers -fomit-frame-pointer"
+CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -fno-caller-saves -fno-plt -fPIC -mcpu=cortex-a53+crypto+crc -march=armv8-a+crypto+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -frename-registers -fomit-frame-pointer"
 
 #CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -fomit-frame-pointer -falign-functions=32 -ffunction-sections -fdata-sections -D__QCA_NSS__=1 -D__QCA_NSS_CRYPTO__=1 -fgcse-lm -fno-caller-saves -fno-plt -fivopts"
 #CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -falign-functions=16 -falign-loops=16"
