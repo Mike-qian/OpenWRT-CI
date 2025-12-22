@@ -101,23 +101,29 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-sto
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
 # 1. 取消所有现有的安全加固设置
-#sed -i 's/CONFIG_PKG_ASLR_PIE=y/# CONFIG_PKG_ASLR_PIE is not set/' .config
-#sed -i 's/CONFIG_PKG_FORTIFY_SOURCE_.*/# CONFIG_PKG_FORTIFY_SOURCE_NONE=y/' .config
-#sed -i 's/CONFIG_PKG_RELRO_.*/# CONFIG_PKG_RELRO_NONE=y/' .config
-#sed -i 's/CONFIG_PKG_CC_STACKPROTECTOR_.*/# CONFIG_PKG_CC_STACKPROTECTOR_NONE=y/' .config
+sed -i 's/CONFIG_PKG_ASLR_PIE=y/# CONFIG_PKG_ASLR_PIE is not set/' .config
+sed -i 's/CONFIG_PKG_FORTIFY_SOURCE_.*/# CONFIG_PKG_FORTIFY_SOURCE_NONE=y/' .config
+sed -i 's/CONFIG_PKG_RELRO_.*/# CONFIG_PKG_RELRO_NONE=y/' .config
+sed -i 's/CONFIG_PKG_CC_STACKPROTECTOR_.*/# CONFIG_PKG_CC_STACKPROTECTOR_NONE=y/' .config
 
 # 2. 显式启用“NONE”选项（确保构建系统识别）
-#echo "CONFIG_PKG_FORTIFY_SOURCE_NONE=y" >> .config
-#echo "CONFIG_PKG_RELRO_NONE=y" >> .config
-#echo "CONFIG_PKG_CC_STACKPROTECTOR_NONE=y" >> .config
+echo "CONFIG_PKG_FORTIFY_SOURCE_NONE=y" >> .config
+echo "CONFIG_PKG_RELRO_NONE=y" >> .config
+echo "CONFIG_PKG_CC_STACKPROTECTOR_NONE=y" >> .config
 
 
-# 1. 强制将全局定义的 FORTIFY_SOURCE 改为 0
+# 强制全局将 FORTIFY_SOURCE 的定义降级为 0
 sed -i 's/-D_FORTIFY_SOURCE=1/-D_FORTIFY_SOURCE=0/g' include/target.mk
 sed -i 's/-D_FORTIFY_SOURCE=2/-D_FORTIFY_SOURCE=0/g' include/target.mk
 
-# 2. 强制将全局栈保护改为 fno-stack-protector
+# 强制将全局堆栈保护标记改为 no
 sed -i 's/-fstack-protector[^ ]*/-fno-stack-protector/g' include/target.mk
 
-# 3. 移除全局的 -Werror=format-security
-sed -i 's/-Werror=format-security//g' include/target.mk
+# 强制将 Relro 改为 lazy（非立即绑定）
+sed -i 's/-Wl,-z,now/-Wl,-z,lazy/g' include/target.mk
+sed -i 's/-Wl,-z,relro/-Wl,-z,norelro/g' include/target.mk
+
+# 进入 OpenSSL 包目录
+# 移除所有强制的安全 CFLAGS
+sed -i 's/-D_FORTIFY_SOURCE=[0-9]//g' package/libs/openssl/Makefile
+sed -i 's/-fstack-protector[^ ]*//g' package/libs/openssl/Makefile
