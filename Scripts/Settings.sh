@@ -112,4 +112,12 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 #echo "CONFIG_PKG_CC_STACKPROTECTOR_NONE=y" >> .config
 
 
+# 1. 强制将全局定义的 FORTIFY_SOURCE 改为 0
+sed -i 's/-D_FORTIFY_SOURCE=1/-D_FORTIFY_SOURCE=0/g' include/target.mk
+sed -i 's/-D_FORTIFY_SOURCE=2/-D_FORTIFY_SOURCE=0/g' include/target.mk
 
+# 2. 强制将全局栈保护改为 fno-stack-protector
+sed -i 's/-fstack-protector[^ ]*/-fno-stack-protector/g' include/target.mk
+
+# 3. 移除全局的 -Werror=format-security
+sed -i 's/-Werror=format-security//g' include/target.mk
