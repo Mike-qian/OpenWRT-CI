@@ -100,6 +100,15 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
-
+# 关闭所有安全加固插件
+./scripts/config -d PKG_CC_STACKPROTECTOR_REGULAR
+./scripts/config -d PKG_CC_STACKPROTECTOR_STRONG
+./scripts/config -e PKG_CC_STACKPROTECTOR_NONE
+./scripts/config -d PKG_RELRO_PARTIAL
+./scripts/config -d PKG_RELRO_FULL
+./scripts/config -e PKG_RELRO_NONE
+./scripts/config -d PKG_FORTIFY_SOURCE_1
+./scripts/config -d PKG_FORTIFY_SOURCE_2
+./scripts/config -e PKG_FORTIFY_SOURCE_NONE
 
 
