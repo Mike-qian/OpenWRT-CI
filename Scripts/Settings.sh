@@ -101,15 +101,15 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-sto
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
 # 1. 取消所有现有的安全加固设置
-sed -i 's/CONFIG_PKG_ASLR_PIE=y/# CONFIG_PKG_ASLR_PIE is not set/' .config
-sed -i 's/CONFIG_PKG_FORTIFY_SOURCE_.*/# CONFIG_PKG_FORTIFY_SOURCE_NONE=y/' .config
-sed -i 's/CONFIG_PKG_RELRO_.*/# CONFIG_PKG_RELRO_NONE=y/' .config
-sed -i 's/CONFIG_PKG_CC_STACKPROTECTOR_.*/# CONFIG_PKG_CC_STACKPROTECTOR_NONE=y/' .config
+#sed -i 's/CONFIG_PKG_ASLR_PIE=y/# CONFIG_PKG_ASLR_PIE is not set/' .config
+#sed -i 's/CONFIG_PKG_FORTIFY_SOURCE_.*/# CONFIG_PKG_FORTIFY_SOURCE_NONE=y/' .config
+#sed -i 's/CONFIG_PKG_RELRO_.*/# CONFIG_PKG_RELRO_NONE=y/' .config
+#sed -i 's/CONFIG_PKG_CC_STACKPROTECTOR_.*/# CONFIG_PKG_CC_STACKPROTECTOR_NONE=y/' .config
 
 # 2. 显式启用“NONE”选项（确保构建系统识别）
-echo "CONFIG_PKG_FORTIFY_SOURCE_NONE=y" >> .config
-echo "CONFIG_PKG_RELRO_NONE=y" >> .config
-echo "CONFIG_PKG_CC_STACKPROTECTOR_NONE=y" >> .config
+#echo "CONFIG_PKG_FORTIFY_SOURCE_NONE=y" >> .config
+#echo "CONFIG_PKG_RELRO_NONE=y" >> .config
+#echo "CONFIG_PKG_CC_STACKPROTECTOR_NONE=y" >> .config
 
 
 
