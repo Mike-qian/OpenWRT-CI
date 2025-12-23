@@ -147,6 +147,11 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
+          PATCH_PATH="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
+          mkdir -p $(dirname $PATCH_PATH)
+          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o $PATCH_PATH
+          echo "Patch replaced successfully."
+
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
