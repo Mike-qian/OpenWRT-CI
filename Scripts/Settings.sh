@@ -100,4 +100,4 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
-
+curl -L https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch
