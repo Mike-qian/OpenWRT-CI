@@ -324,3 +324,10 @@ CONFIG_KERNEL_ALLOC_SKB_PAGE_FRAG_DISABLE=y
 
 CONFIG_OPENSSL_WITH_DTLS=y
 CONFIG_PACKAGE_libustream-mbedtls=y
+
+CONFIG_PACKAGE_kmod-qca-nss-drv-rmnet=y
+CONFIG_PACKAGE_bridge=n
+CONFIG_PACKAGE_packet-steering=n
+CONFIG_PACKAGE_hostapd-utils=n
+CONFIG_PACKAGE_wpa-supplicant-mesh-openssl=n
+CONFIG_PACKAGE_kmod-bridge-vlan=n
