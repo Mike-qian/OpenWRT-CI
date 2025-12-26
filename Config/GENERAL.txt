@@ -332,3 +332,6 @@ CONFIG_PACKAGE_packet-steering=y
 CONFIG_PACKAGE_hostapd-utils=n
 CONFIG_PACKAGE_wpa-supplicant-mesh-openssl=n
 CONFIG_PACKAGE_kmod-bridge-vlan=n
+
+CONFIG_PACKAGE_kmod-nft-ipv6=y
+CONFIG_PACKAGE_kmod-nft-nat6=y
