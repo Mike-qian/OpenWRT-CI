@@ -93,6 +93,6 @@ if [ -d *"luci-app-netspeedtest"* ]; then
 	cd ./luci-app-netspeedtest/
 
 	sed -i '$a\exit 0' ./netspeedtest/files/99_netspeedtest.defaults
-
+	sed -i 's/ca-certificates/ca-bundle/g' ./speedtest-cli/Makefile
 	cd $PKG_PATH && echo "netspeedtest has been fixed!"
 fi
