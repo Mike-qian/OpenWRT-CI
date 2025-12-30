@@ -171,7 +171,7 @@ CONFIG_OPENSSL_WITH_ARMV8_CRYPTO=y
 
 #CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crc+crypto+simd -mtune=cortex-a53 -fomit-frame-pointer -fno-caller-saves -fno-plt -fstack-protector-strong -ffast-math -fuse-linker-plugin -funroll-loops -frename-registers -Wno-error=maybe-uninitialized"
 
-CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crc+crypto+simd -mtune=cortex-a53 -fomit-frame-pointer -fno-plt -fuse-linker-plugin -funroll-loops -frename-registers -DUSE_PTHREAD -lpthread -mno-outline-atomics"
+CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crc+crypto+simd -mtune=cortex-a53 -fomit-frame-pointer -fno-plt -fuse-linker-plugin -funroll-loops -frename-registers -DUSE_PTHREAD -mno-outline-atomics"
 
 #CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -fomit-frame-pointer -falign-functions=32 -ffunction-sections -fdata-sections -D__QCA_NSS__=1 -D__QCA_NSS_CRYPTO__=1 -fgcse-lm -fno-caller-saves -fno-plt -fivopts"
 #CONFIG_DEFAULT_TARGET_OPTIMIZATION="-O2 -pipe -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -falign-functions=16 -falign-loops=16"
