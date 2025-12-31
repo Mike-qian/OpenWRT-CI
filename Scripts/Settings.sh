@@ -100,3 +100,19 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
+# 强行关闭安全选项 (针对 OpenWrt 全局配置)
+sed -i 's/CONFIG_PKG_CC_STACKPROTECTOR_REGULAR=y/CONFIG_PKG_CC_STACKPROTECTOR_NONE=y/' .config
+sed -i 's/CONFIG_PKG_CC_STACKPROTECTOR_REGULAR=y/# CONFIG_PKG_CC_STACKPROTECTOR_REGULAR is not set/' .config
+sed -i 's/CONFIG_PKG_ASLR_PIE_REGULAR=y/# CONFIG_PKG_ASLR_PIE_REGULAR is not set/' .config
+sed -i 's/CONFIG_PKG_FORTIFY_SOURCE_1=y/# CONFIG_PKG_FORTIFY_SOURCE_1 is not set/' .config
+
+# 针对内核 Stack Protector 的特殊处理
+# 需要同时关闭内核配置
+echo "CONFIG_KERNEL_STACKPROTECTOR_NONE=y" >> .config
+echo "# CONFIG_KERNEL_STACKPROTECTOR_REGULAR is not set" >> .config
+echo "# CONFIG_KERNEL_STACKPROTECTOR_STRONG is not set" >> .config
+
+# 在 build 之前，修改 target 默认的内核配置
+find target/linux/qualcommax/ -name "config-*" -exec sed -i 's/CONFIG_KERNEL_STACKPROTECTOR_STRONG=y/# CONFIG_KERNEL_STACKPROTECTOR_STRONG is not set/g' {} +
+find target/linux/qualcommax/ -name "config-*" -exec sed -i 's/CONFIG_KERNEL_STACKPROTECTOR_REGULAR=y/# CONFIG_KERNEL_STACKPROTECTOR_REGULAR is not set/g' {} +
+find target/linux/qualcommax/ -name "config-*" -exec echo "CONFIG_KERNEL_STACKPROTECTOR_NONE=y" >> {} +
