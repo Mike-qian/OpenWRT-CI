@@ -353,3 +353,13 @@ CONFIG_PKG_ASLR_PIE_NONE=y
 CONFIG_USE_SECCOMP=n
 CONFIG_PKG_RELRO_FULL=n
 CONFIG_PKG_RELRO_NONE=y
+
+CONFIG_PACKAGE_kmod-phy-aquantia=n
+CONFIG_PACKAGE_kmod-usb-core=n
+CONFIG_PACKAGE_kmod-usb-dwc3=n
+CONFIG_PACKAGE_kmod-usb-dwc3-qcom=n
+CONFIG_PACKAGE_kmod-usb-xhci-hcd=n
+CONFIG_PACKAGE_kmod-usb3=n
+CONFIG_PACKAGE_wpad-basic-mbedtls=n
+CONFIG_PACKAGE_luci-app-attendedsysupgrade=n
+CONFIG_PACKAGE_attendedsysupgrade-common=n
