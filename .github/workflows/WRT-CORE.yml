@@ -147,13 +147,16 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
-          PATCH_PATH="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
-          mkdir -p $(dirname $PATCH_PATH)
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o $PATCH_PATH
+          # 补丁 1: CPU 频率表
+          PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
+          mkdir -p $(dirname "$PATCH_PATH1")
+          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
 
-          git remote add openwrt-ipq https://github.com/qosmio/openwrt-ipq.git
-          git fetch openwrt-ipq
-          git cherry-pick ea6126c6d5ebabcc73158a786cfba5d6491ee607
+          # 补丁 2: NSS ECM 支持
+          PATCH_PATH2="target/linux/qualcommax/patches-6.12/0600-1-qca-nss-ecm-support-CORE.patch"
+          mkdir -p $(dirname "$PATCH_PATH2")
+          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/target/linux/qualcommax/patches-6.12/0600-1-qca-nss-ecm-support-CORE.patch -o "$PATCH_PATH2" -o $PATCH_PATH
+
         
           echo "Patch replaced successfully."
 
