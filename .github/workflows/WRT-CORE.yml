@@ -157,7 +157,16 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH2")
           curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/target/linux/qualcommax/patches-6.12/0600-1-qca-nss-ecm-support-CORE.patch -o "$PATCH_PATH2" 
 
-        
+          # 补丁 3: Wi-Fi BSS 切换处理 (802.11v)
+          PATCH_PATH3="package/kernel/mac80211/patches/999-900-bss-transition-handling.patch"
+          mkdir -p $(dirname "$PATCH_PATH3")
+          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-900-bss-transition-handling.patch -o "$PATCH_PATH3"
+
+          # 补丁 4: 设置 ath11k NSS 线程优先级
+          PATCH_PATH4="package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch"
+          mkdir -p $(dirname "$PATCH_PATH4")
+          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch -o "$PATCH_PATH4"
+          
           echo "Patch replaced successfully."
 
 
