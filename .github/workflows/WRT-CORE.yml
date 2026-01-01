@@ -150,13 +150,11 @@ jobs:
           PATCH_PATH="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
           mkdir -p $(dirname $PATCH_PATH)
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o $PATCH_PATH
-          #PATCH_ATH11K="package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch"
-          #mkdir -p $(dirname $PATCH_ATH11K)
-          #curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch -o $PATCH_ATH11K
-          #SQM_DEST="package/base-files/files/etc/uci-defaults/999-sqm-settings"
-          #mkdir -p $(dirname $SQM_DEST)
-          #curl -sSL https://raw.githubusercontent.com/Mike-qian/Qualcommax_NSS_Builder/refs/heads/main/files/etc/uci-defaults/999-sqm-settings -o $SQM_DEST
-          
+
+          git remote add openwrt-ipq https://github.com/qosmio/openwrt-ipq.git
+          git fetch openwrt-ipq
+          git cherry-pick ea6126c6d5ebabcc73158a786cfba5d6491ee607
+        
           echo "Patch replaced successfully."
 
 
