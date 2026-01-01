@@ -147,7 +147,7 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
-                    # 补丁 1: CPU 频率表
+          # 补丁 1: CPU 频率表
           PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
           mkdir -p $(dirname "$PATCH_PATH1")
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
