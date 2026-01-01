@@ -166,6 +166,16 @@ jobs:
           PATCH_PATH4="package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch"
           mkdir -p $(dirname "$PATCH_PATH4")
           curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch -o "$PATCH_PATH4"
+
+          # 补丁 5: 修复 512MB 内存设备 (如 AX3600) 在 ath11k 驱动下的启动崩溃
+          PATCH_PATH5="package/kernel/mac80211/patches/nss/ath11k/999-906-ath11k-Enable-missing-256_512MB-profiles.patch"
+          mkdir -p $(dirname "$PATCH_PATH5")
+          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-906-ath11k-Enable-missing-256_512MB-profiles.patch -o "$PATCH_PATH5"
+                   
+          # 补丁 6: 为 ath11k 添加 RX 队列更新重试机制（提升 Wi-Fi 稳定性）
+          PATCH_PATH6="package/kernel/mac80211/patches/nss/ath11k/373-ath11k-Add-retry-mechanism-for-update_rx_qu.patch"
+          mkdir -p $(dirname "$PATCH_PATH6")
+          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/kernel/mac80211/patches/nss/ath11k/373-ath11k-Add-retry-mechanism-for-update_rx_qu.patch -o "$PATCH_PATH6"       
           
           echo "Patch replaced successfully."
 
