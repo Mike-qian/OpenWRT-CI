@@ -152,30 +152,13 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH1")
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
 
-          # 补丁 2: NSS ECM 支持
-          PATCH_PATH2="target/linux/qualcommax/patches-6.12/0600-1-qca-nss-ecm-support-CORE.patch"
-          mkdir -p $(dirname "$PATCH_PATH2")
-          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/target/linux/qualcommax/patches-6.12/0600-1-qca-nss-ecm-support-CORE.patch -o "$PATCH_PATH2" 
 
           # 补丁 3: Wi-Fi BSS 切换处理 (802.11v)
           PATCH_PATH3="package/kernel/mac80211/patches/999-900-bss-transition-handling.patch"
           mkdir -p $(dirname "$PATCH_PATH3")
           curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-900-bss-transition-handling.patch -o "$PATCH_PATH3"
 
-          # 补丁 4: 设置 ath11k NSS 线程优先级
-          PATCH_PATH4="package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch"
-          mkdir -p $(dirname "$PATCH_PATH4")
-          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-311-ath11k-configure-nss-thread-priority-during-pdev_ini.patch -o "$PATCH_PATH4"
-
-          # 补丁 5: 修复 512MB 内存设备 (如 AX3600) 在 ath11k 驱动下的启动崩溃
-          PATCH_PATH5="package/kernel/mac80211/patches/nss/ath11k/999-906-ath11k-Enable-missing-256_512MB-profiles.patch"
-          mkdir -p $(dirname "$PATCH_PATH5")
-          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-906-ath11k-Enable-missing-256_512MB-profiles.patch -o "$PATCH_PATH5"
-                   
-          # 补丁 6: 为 ath11k 添加 RX 队列更新重试机制（提升 Wi-Fi 稳定性）
-          PATCH_PATH6="package/kernel/mac80211/patches/nss/ath11k/373-ath11k-Add-retry-mechanism-for-update_rx_qu.patch"
-          mkdir -p $(dirname "$PATCH_PATH6")
-          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/refs/heads/main-nss/package/kernel/mac80211/patches/nss/ath11k/373-ath11k-Add-retry-mechanism-for-update_rx_qu.patch -o "$PATCH_PATH6"       
+     
           
           echo "Patch replaced successfully."
 
