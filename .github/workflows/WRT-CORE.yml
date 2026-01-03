@@ -149,9 +149,9 @@ jobs:
           cd ./wrt/
 
           # 补丁 2: CPU 电压表
-          PATCH_PATH2="target/linux/qualcommax/patches-6.12/999-force-voltage-boost.patch"
+          PATCH_PATH2="target/linux/qualcommax/patches-6.12/9999-force-voltage-boost.patch"
           mkdir -p $(dirname "$PATCH_PATH2")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/999-force-voltage-boost.patch -o "$PATCH_PATH2"
+          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/9999-force-voltage-boost.patch -o "$PATCH_PATH2"
 
           # 补丁 1: CPU 频率表
           PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
