@@ -101,3 +101,33 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-sto
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
 
+# 目标主 DTS 文件
+FINAL_DTS="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ax3600-stock.dts"
+
+if [ -f "$FINAL_DTS" ]; then
+    echo "正在对 AX3600 执行顶层电压注入..."
+    cat <<EOF >> "$FINAL_DTS"
+
+&apc_vreg {
+	/* 强制抬高基准电压 100mV */
+	qcom,cpr-parts-voltage = <1148000>;
+	qcom,cpr-parts-voltage-v2 = <1092000>;
+
+	/* 彻底删除熔丝限制封印 */
+	/delete-property/ qcom,cpr-scaled-open-loop-voltage-as-ceiling;
+
+	/* 抬高电压天花板到 1.1V */
+	qcom,cpr-voltage-ceiling = <840000 904000 944000 984000 992000 1100000>;
+
+	/* 同步提升商值偏移，确保环路反馈不报错 */
+	qcom,cpr-open-loop-quotient-adjustment-0 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
+	qcom,cpr-open-loop-quotient-adjustment-1 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
+	qcom,cpr-open-loop-quotient-adjustment-v2-0 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
+	qcom,cpr-open-loop-quotient-adjustment-v2-1 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
+};
+EOF
+    echo "注入完成！"
+else
+    echo "错误：未找到目标文件 $FINAL_DTS"
+    exit 1
+fi
