@@ -147,15 +147,17 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
-          # 补丁 1: CPU 频率表
-          PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
-          mkdir -p $(dirname "$PATCH_PATH1")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
+
           # 补丁 2: CPU 电压表
           PATCH_PATH2="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
           mkdir -p $(dirname "$PATCH_PATH2")
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/ipq8074-cpr-regulator.dtsi -o "$PATCH_PATH2"
 
+          # 补丁 1: CPU 频率表
+          PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
+          mkdir -p $(dirname "$PATCH_PATH1")
+          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
+          
           # 补丁 3: Wi-Fi BSS 切换处理 (802.11v)
           PATCH_PATH3="package/kernel/mac80211/patches/999-900-bss-transition-handling.patch"
           mkdir -p $(dirname "$PATCH_PATH3")
