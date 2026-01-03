@@ -76,14 +76,14 @@
 				/* SS parts i.e turbo L1 OL voltage >= 1048 mV */
 				qcom,cpr-open-loop-voltage-fuse-adjustment-1 =
 					/* Speed bin 0; CPR rev 0..7 */
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
 					< 20000  26000      0  100000>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>;
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>;
 
 				/* v2 - FF parts i.e. turbo L1 OL voltage < 992 mV */
 				qcom,cpr-open-loop-voltage-fuse-adjustment-v2-0 =
@@ -100,14 +100,14 @@
 				/* v2 - SS/TT parts i.e turbo L1 OL voltage >= 992 mV */
 				qcom,cpr-open-loop-voltage-fuse-adjustment-v2-1 =
 					/* Speed bin 0; CPR rev 0..7 */
-					<     0      0      0     0>,
+					<     0      0      0  100000>,
 					<     0   7000  36000  100000>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>,
-					<     0      0      0     0>;
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>,
+					<     0      0      0  100000>;
 
 				/* v2 - FF parts i.e. turbo L1 OL voltage < 992 mV */
 				qcom,cpr-closed-loop-voltage-adjustment-v2-0 =
