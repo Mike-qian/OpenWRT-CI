@@ -147,57 +147,15 @@ jobs:
       - name: Update Feeds
         run: |
           cd ./wrt/
-
+          
           # 补丁 1: CPU 频率表
           PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
           mkdir -p $(dirname "$PATCH_PATH1")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
-          
+          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"  
           echo "Patch replaced successfully."
-
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
-
-      - name: Hardcore Voltage Boost (1.0V Safe Mode)
-        run: |
-          cd ./wrt/
-          
-          # 1. 执行全源码目录无差别替换
-          # 目标：将基准从 0.992V 提升到 1.04V，计算 fuse 偏移后实际约 1.0V
-          echo "执行全源码目录无差别加压 (目标 1.0V)..."
-          
-          # 处理 992000 (v2 逻辑基准) -> 1040000
-          grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1040000/g' {}
-          
-          # 处理 1048000 (v1 逻辑基准) -> 1050000 (微调即可)
-          grep -rl "1048000" target/linux/qualcommax/ | xargs -i sed -i 's/1048000/1050000/g' {}
-
-          # 2. 针对 0901 补丁做二次确认替换 (确保驱动底层基准同步)
-          PATCH_0901="target/linux/qualcommax/patches-6.12/0901-regulator-add-Qualcomm-CPR-regulators.patch"
-          if [ -f "$PATCH_0901" ]; then
-              sed -i 's/992000/1040000/g' "$PATCH_0901"
-              sed -i 's/1048000/1050000/g' "$PATCH_0901"
-          fi
-
-          # 3. 针对设备树源文件做“去封印”及“天花板”调整
-          DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
-          if [ -f "$DTS_FILE" ]; then
-              # 抬高天花板到 1.1V 即可 (原 1.064V)，既能过 1.0V 计算，又不会触发电源芯片报警
-              sed -i 's/1064000/1100000/g' "$DTS_FILE"
-              # 物理删除封印行 (关键：解除 fuse 电压限制)
-              sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' "$DTS_FILE"
-              echo "DTS 封印已物理拆除，天花板设定为 1.1V 安全线"
-          fi
-
-          # 4. 验证修改结果
-          echo "验证修改结果（不应出现原厂 992000）："
-          if grep -r "992000" target/linux/qualcommax/; then
-              echo "ERROR: 仍有旧基准残留！"
-              exit 1
-          else
-              echo "SUCCESS: 旧基准已彻底消失，新基准已设为 1.04V"
-          fi
 
       - name: Custom Packages
         run: |
