@@ -105,28 +105,33 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 FINAL_DTS="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8071-ax3600-stock.dts"
 
 if [ -f "$FINAL_DTS" ]; then
-    echo "正在对 AX3600 执行顶层电压注入..."
-    cat <<EOF >> "$FINAL_DTS"
+    echo "正在对 AX3600 执行顶层电压注入 (1.0V 稳健版)..."
+    
+    # 物理删除可能存在的旧注入段落，防止重复追加导致语法错误
+    sed -i '/&apc_vreg/,$d' "$FINAL_DTS"
+
+    # 注入新的 1.0V 逻辑块 (使用单引号 'EOF' 防止 YAML 解析特殊符号)
+    cat << 'EOF' >> "$FINAL_DTS"
 
 &apc_vreg {
-	/* 基准电压设定为 1.04V，抵消 fuse 偏移后实际约 1.0V */
-	qcom,cpr-parts-voltage = <1048000>;
+	/* 基准设定为 1.04V，抵消 fuse 偏移后实际运行约 1.0V */
+	qcom,cpr-parts-voltage = <1050000>;
 	qcom,cpr-parts-voltage-v2 = <1040000>;
 
-	/* 彻底删除电压限制封印 */
+	/* 彻底删除熔丝限制封印，允许电压突破原厂 0.99V 限制 */
 	/delete-property/ qcom,cpr-scaled-open-loop-voltage-as-ceiling;
 
-	/* 天花板设定在 1.1V，留足余量但不触发电源芯片报警 */
+	/* 抬高电压天花板到 1.1V，留出 60mV 余量，且不触发电源芯片报警 */
 	qcom,cpr-voltage-ceiling = <840000 904000 944000 984000 992000 1100000>;
 
-	/* 同步提升商值偏移（40单位），确保闭环反馈逻辑与 1.0V 电压匹配 */
+	/* 同步提升商值偏移（40单位），确保 CPR 闭环逻辑认为 1.0V 是正常的性能电压 */
 	qcom,cpr-open-loop-quotient-adjustment-0 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
 	qcom,cpr-open-loop-quotient-adjustment-1 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
 	qcom,cpr-open-loop-quotient-adjustment-v2-0 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
 	qcom,cpr-open-loop-quotient-adjustment-v2-1 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
 };
 EOF
-    echo "注入完成！"
+    echo "注入完成！当前设定：1.04V 基准 / 40 商值偏移"
 else
     echo "错误：未找到目标文件 $FINAL_DTS"
     exit 1
