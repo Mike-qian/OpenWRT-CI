@@ -163,33 +163,41 @@ jobs:
         run: |
           cd ./wrt/
           
-          # 将所有 992000 (旧基准) 统一改为 1040000
+          # 1. 执行全源码目录无差别替换
+          # 目标：将基准从 0.992V 提升到 1.04V，计算 fuse 偏移后实际约 1.0V
+          echo "执行全源码目录无差别加压 (目标 1.0V)..."
+          
+          # 处理 992000 (v2 逻辑基准) -> 1040000
           grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1040000/g' {}
           
-          # 将所有 1048000 (针对 v1) 保持原样或微调
+          # 处理 1048000 (v1 逻辑基准) -> 1050000 (微调即可)
           grep -rl "1048000" target/linux/qualcommax/ | xargs -i sed -i 's/1048000/1050000/g' {}
-          
-          # 特别确保 0901 补丁被正确修改
+
+          # 2. 针对 0901 补丁做二次确认替换 (确保驱动底层基准同步)
           PATCH_0901="target/linux/qualcommax/patches-6.12/0901-regulator-add-Qualcomm-CPR-regulators.patch"
           if [ -f "$PATCH_0901" ]; then
               sed -i 's/992000/1040000/g' "$PATCH_0901"
+              sed -i 's/1048000/1050000/g' "$PATCH_0901"
           fi
 
-          # 3. 针对设备树源文件做“去封印”及“安全余量”调整
+          # 3. 针对设备树源文件做“去封印”及“天花板”调整
           DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
           if [ -f "$DTS_FILE" ]; then
-              # 抬高底层天花板到 1.1V (为 1.0V 的运行留出 100mV 的波动空间)
-              # 将原有的 1064000 (1.06V) 提升到 1100000 (1.1V)
+              # 抬高天花板到 1.1V 即可 (原 1.064V)，既能过 1.0V 计算，又不会触发电源芯片报警
               sed -i 's/1064000/1100000/g' "$DTS_FILE"
-              
-              # 物理删除封印行（确保加压指令拥有最高解释权）
+              # 物理删除封印行 (关键：解除 fuse 电压限制)
               sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' "$DTS_FILE"
               echo "DTS 封印已物理拆除，天花板设定为 1.1V 安全线"
           fi
 
-          # 4. 这里的验证非常关键！
-          echo "验证修改结果（不应出现 992000）："
-          grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1040000/g' {}
+          # 4. 验证修改结果
+          echo "验证修改结果（不应出现原厂 992000）："
+          if grep -r "992000" target/linux/qualcommax/; then
+              echo "ERROR: 仍有旧基准残留！"
+              exit 1
+          else
+              echo "SUCCESS: 旧基准已彻底消失，新基准已设为 1.04V"
+          fi
 
       - name: Custom Packages
         run: |
