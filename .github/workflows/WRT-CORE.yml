@@ -163,8 +163,14 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH3")
           curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-900-bss-transition-handling.patch -o "$PATCH_PATH3"
 
-     
-          
+          echo "执行全局硬核加压替换..."
+          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i 's/992000/1092000/g' {} +
+          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i 's/1048000/1148000/g' {} +
+          # 删除限制天花板的封印
+          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' {} +
+          # 提高电压上限
+          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i 's/1064000/1100000/g' {} +     
+          grep -r "992000" target/linux/qualcommax/ || echo "No match found"
           echo "Patch replaced successfully."
 
 
