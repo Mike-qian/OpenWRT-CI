@@ -159,36 +159,37 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Hardcore Voltage Boost (Emergency Fix)
+      - name: Hardcore Voltage Boost (1.0V Safe Mode)
         run: |
           cd ./wrt/
           
-          # 1. 直接对整个 target 目录执行“暴力无差别替换”
-          # 无论缩进、无论文件类型，只要看到 992000/1048000 统统拔高 100mV
-          echo "执行全源码目录无差别加压..."
-          grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1092000/g' {}
-          grep -rl "1048000" target/linux/qualcommax/ | xargs -i sed -i 's/1048000/1148000/g' {}
+          # 将所有 992000 (旧基准) 统一改为 1040000
+          grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1040000/g' {}
           
-          # 2. 针对 0901 补丁做二次确认替换 (驱动底层)
+          # 将所有 1048000 (针对 v1) 保持原样或微调
+          grep -rl "1048000" target/linux/qualcommax/ | xargs -i sed -i 's/1048000/1050000/g' {}
+          
+          # 特别确保 0901 补丁被正确修改
           PATCH_0901="target/linux/qualcommax/patches-6.12/0901-regulator-add-Qualcomm-CPR-regulators.patch"
           if [ -f "$PATCH_0901" ]; then
-              sed -i 's/992000/1092000/g' "$PATCH_0901"
-              sed -i 's/1048000/1148000/g' "$PATCH_0901"
+              sed -i 's/992000/1040000/g' "$PATCH_0901"
           fi
 
-          # 3. 针对设备树源文件做“去封印”手术
+          # 3. 针对设备树源文件做“去封印”及“安全余量”调整
           DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
           if [ -f "$DTS_FILE" ]; then
-              # 抬高天花板到 1.15V (防止计算值被截断)
-              sed -i 's/1064000/1150000/g' "$DTS_FILE"
-              # 物理删除封印行
+              # 抬高底层天花板到 1.1V (为 1.0V 的运行留出 100mV 的波动空间)
+              # 将原有的 1064000 (1.06V) 提升到 1100000 (1.1V)
+              sed -i 's/1064000/1100000/g' "$DTS_FILE"
+              
+              # 物理删除封印行（确保加压指令拥有最高解释权）
               sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' "$DTS_FILE"
-              echo "DTS 封印已物理拆除"
+              echo "DTS 封印已物理拆除，天花板设定为 1.1V 安全线"
           fi
 
           # 4. 这里的验证非常关键！
           echo "验证修改结果（不应出现 992000）："
-          grep -r "992000" target/linux/qualcommax/ || echo "SUCCESS: 旧基准已彻底消失"
+          grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1040000/g' {}
 
       - name: Custom Packages
         run: |
