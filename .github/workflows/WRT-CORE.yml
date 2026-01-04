@@ -148,11 +148,6 @@ jobs:
         run: |
           cd ./wrt/
 
-          # 补丁 2: CPU 电压表
-          PATCH_PATH2="target/linux/qualcommax/patches-6.12/9999-force-voltage-boost.patch"
-          mkdir -p $(dirname "$PATCH_PATH2")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/9999-force-voltage-boost.patch -o "$PATCH_PATH2"
-
           # 补丁 1: CPU 频率表
           PATCH_PATH1="target/linux/qualcommax/patches-6.12/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
           mkdir -p $(dirname "$PATCH_PATH1")
@@ -163,30 +158,43 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH3")
           curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-900-bss-transition-handling.patch -o "$PATCH_PATH3"
 
-          CPR_PATCH="target/linux/qualcommax/patches-6.12/0901-regulator-add-Qualcomm-CPR-regulators.patch"
-          
-          if [ -f "$CPR_PATCH" ]; then
-            echo "正在硬核修改 0901 驱动补丁中的电压基准..."
-            
-            # 1. 替换 APSS (CPU) 的参考电压基准
-            # 将 V2 版本的 992000 提升至 1092000 (提升 100mV)
-            sed -i 's/992000/1092000/g' "$CPR_PATCH"
-            
-            # 将 V1 版本的 1048000 提升至 1148000
-            sed -i 's/1048000/1148000/g' "$CPR_PATCH"
-            
-            # 2. 修改 NPU 的参考基准（如果有必要）
-            # 补丁中 NPU 部分也使用了 992000，上一步已统一替换
-            
-            echo "修改完成。"
-          else
-            echo "错误：找不到 0901 补丁文件，请检查路径。"
-            exit 1
+          # --- 步骤 2: 定义路径并执行硬核加压 ---
+          PATCH_DIR="target/linux/qualcommax/patches-6.12"
+          DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
+
+          echo "开始执行 AX3600 硬核加压组合拳 (修复缩进匹配)..."
+
+          # 2.1 修改驱动底层补丁 (0901) - 抬高计算起步线
+          if [ -f "$PATCH_DIR/0901-regulator-add-Qualcomm-CPR-regulators.patch" ]; then
+              echo "正在修改 0901 驱动补丁..."
+              sed -i 's/992000/1092000/g' "$PATCH_DIR/0901-regulator-add-Qualcomm-CPR-regulators.patch"
+              sed -i 's/1048000/1148000/g' "$PATCH_DIR/0901-regulator-add-Qualcomm-CPR-regulators.patch"
           fi
 
-          # 3. 再次确保你的 9999 补丁也同步了修改后的数值
-          sed -i 's/992000/1092000/g' target/linux/qualcommax/patches-6.12/9999-force-voltage-boost.patch || true   
-          grep -r "992000" target/linux/qualcommax/ || echo "No match found"
+          # 2.2 修改设备树源文件 (DTS) - 使用通配符解决缩进问题
+          if [ -f "$DTS_FILE" ]; then
+              echo "正在修改 ipq8074-cpr-regulator.dtsi..."
+              # 使用 [[:space:]]* 匹配任何数量的 Tab 或空格，确保精准命中
+              sed -i 's/[[:space:]]*qcom,cpr-parts-voltage = <1048000>;/				qcom,cpr-parts-voltage = <1148000>;/g' "$DTS_FILE"
+              sed -i 's/[[:space:]]*qcom,cpr-parts-voltage-v2 = <992000>;/				qcom,cpr-parts-voltage-v2 = <1092000>;/g' "$DTS_FILE"
+              
+              # 提升天花板 (直接替换数值，不匹配行首缩进，成功率最高)
+              sed -i 's/1064000/1100000/g' "$DTS_FILE"
+              
+              # 彻底删除封印行 (as-ceiling)
+              sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' "$DTS_FILE"
+              
+              # 同步 NPU 天花板
+              #sed -i 's/992000/1100000/g' "$DTS_FILE"
+          else
+              echo "错误：未找到 DTS 文件，搜索实际位置："
+              find target/linux/qualcommax/ -name "ipq8074-cpr-regulator.dtsi"
+              exit 1
+          fi
+
+
+          echo "加压逻辑整合完成，执行最后扫描确认："
+          grep -r "992000" target/linux/qualcommax/files/ || echo "所有旧基准已清除"
           echo "Patch replaced successfully."
 
 
