@@ -109,21 +109,21 @@ if [ -f "$FINAL_DTS" ]; then
     cat <<EOF >> "$FINAL_DTS"
 
 &apc_vreg {
-	/* 强制抬高基准电压 100mV */
-	qcom,cpr-parts-voltage = <1148000>;
-	qcom,cpr-parts-voltage-v2 = <1092000>;
+	/* 基准电压设定为 1.04V，抵消 fuse 偏移后实际约 1.0V */
+	qcom,cpr-parts-voltage = <1048000>;
+	qcom,cpr-parts-voltage-v2 = <1040000>;
 
-	/* 彻底删除熔丝限制封印 */
+	/* 彻底删除电压限制封印 */
 	/delete-property/ qcom,cpr-scaled-open-loop-voltage-as-ceiling;
 
-	/* 抬高电压天花板到 1.1V */
-	qcom,cpr-voltage-ceiling = <840000 904000 944000 984000 1100000 1150000>;
+	/* 天花板设定在 1.1V，留足余量但不触发电源芯片报警 */
+	qcom,cpr-voltage-ceiling = <840000 904000 944000 984000 992000 1100000>;
 
-	/* 同步提升商值偏移，确保环路反馈不报错 */
-	qcom,cpr-open-loop-quotient-adjustment-0 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
-	qcom,cpr-open-loop-quotient-adjustment-1 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
-	qcom,cpr-open-loop-quotient-adjustment-v2-0 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
-	qcom,cpr-open-loop-quotient-adjustment-v2-1 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
+	/* 同步提升商值偏移（40单位），确保闭环反馈逻辑与 1.0V 电压匹配 */
+	qcom,cpr-open-loop-quotient-adjustment-0 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
+	qcom,cpr-open-loop-quotient-adjustment-1 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
+	qcom,cpr-open-loop-quotient-adjustment-v2-0 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
+	qcom,cpr-open-loop-quotient-adjustment-v2-1 = <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>, <0 0 0 40>;
 };
 EOF
     echo "注入完成！"
