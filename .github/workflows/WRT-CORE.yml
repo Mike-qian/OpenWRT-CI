@@ -163,13 +163,29 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH3")
           curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-900-bss-transition-handling.patch -o "$PATCH_PATH3"
 
-          echo "执行全局硬核加压替换..."
-          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i 's/992000/1092000/g' {} +
-          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i 's/1048000/1148000/g' {} +
-          # 删除限制天花板的封印
-          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' {} +
-          # 提高电压上限
-          find target/linux/qualcommax/ -name "*.dts*" -exec sed -i 's/1064000/1100000/g' {} +     
+          CPR_PATCH="target/linux/qualcommax/patches-6.12/0901-regulator-add-Qualcomm-CPR-regulators.patch"
+          
+          if [ -f "$CPR_PATCH" ]; then
+            echo "正在硬核修改 0901 驱动补丁中的电压基准..."
+            
+            # 1. 替换 APSS (CPU) 的参考电压基准
+            # 将 V2 版本的 992000 提升至 1092000 (提升 100mV)
+            sed -i 's/992000/1092000/g' "$CPR_PATCH"
+            
+            # 将 V1 版本的 1048000 提升至 1148000
+            sed -i 's/1048000/1148000/g' "$CPR_PATCH"
+            
+            # 2. 修改 NPU 的参考基准（如果有必要）
+            # 补丁中 NPU 部分也使用了 992000，上一步已统一替换
+            
+            echo "修改完成。"
+          else
+            echo "错误：找不到 0901 补丁文件，请检查路径。"
+            exit 1
+          fi
+
+          # 3. 再次确保你的 9999 补丁也同步了修改后的数值
+          sed -i 's/992000/1092000/g' target/linux/qualcommax/patches-6.12/9999-force-voltage-boost.patch || true   
           grep -r "992000" target/linux/qualcommax/ || echo "No match found"
           echo "Patch replaced successfully."
 
