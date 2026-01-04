@@ -153,53 +153,42 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH1")
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"
           
-          # 补丁 3: Wi-Fi BSS 切换处理 (802.11v)
-          PATCH_PATH3="package/kernel/mac80211/patches/999-900-bss-transition-handling.patch"
-          mkdir -p $(dirname "$PATCH_PATH3")
-          curl -sSL https://raw.githubusercontent.com/qosmio/openwrt-ipq/main-nss/package/kernel/mac80211/patches/nss/ath11k/999-900-bss-transition-handling.patch -o "$PATCH_PATH3"
-
-          # --- 步骤 2: 定义路径并执行硬核加压 ---
-          PATCH_DIR="target/linux/qualcommax/patches-6.12"
-          DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
-
-          echo "开始执行 AX3600 硬核加压组合拳 (修复缩进匹配)..."
-
-          # 2.1 修改驱动底层补丁 (0901) - 抬高计算起步线
-          if [ -f "$PATCH_DIR/0901-regulator-add-Qualcomm-CPR-regulators.patch" ]; then
-              echo "正在修改 0901 驱动补丁..."
-              sed -i 's/992000/1092000/g' "$PATCH_DIR/0901-regulator-add-Qualcomm-CPR-regulators.patch"
-              sed -i 's/1048000/1148000/g' "$PATCH_DIR/0901-regulator-add-Qualcomm-CPR-regulators.patch"
-          fi
-
-          # 2.2 修改设备树源文件 (DTS) - 使用通配符解决缩进问题
-          if [ -f "$DTS_FILE" ]; then
-              echo "正在修改 ipq8074-cpr-regulator.dtsi..."
-              # 使用 [[:space:]]* 匹配任何数量的 Tab 或空格，确保精准命中
-              sed -i 's/[[:space:]]*qcom,cpr-parts-voltage = <1048000>;/				qcom,cpr-parts-voltage = <1148000>;/g' "$DTS_FILE"
-              sed -i 's/[[:space:]]*qcom,cpr-parts-voltage-v2 = <992000>;/				qcom,cpr-parts-voltage-v2 = <1092000>;/g' "$DTS_FILE"
-              
-              # 提升天花板 (直接替换数值，不匹配行首缩进，成功率最高)
-              sed -i 's/1064000/1100000/g' "$DTS_FILE"
-              
-              # 彻底删除封印行 (as-ceiling)
-              sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' "$DTS_FILE"
-              
-              # 同步 NPU 天花板
-              #sed -i 's/992000/1100000/g' "$DTS_FILE"
-          else
-              echo "错误：未找到 DTS 文件，搜索实际位置："
-              find target/linux/qualcommax/ -name "ipq8074-cpr-regulator.dtsi"
-              exit 1
-          fi
-
-
-          echo "加压逻辑整合完成，执行最后扫描确认："
-          grep -r "992000" target/linux/qualcommax/files/ || echo "所有旧基准已清除"
           echo "Patch replaced successfully."
 
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
+
+      - name: Hardcore Voltage Boost (Emergency Fix)
+        run: |
+          cd ./wrt/
+          
+          # 1. 直接对整个 target 目录执行“暴力无差别替换”
+          # 无论缩进、无论文件类型，只要看到 992000/1048000 统统拔高 100mV
+          echo "执行全源码目录无差别加压..."
+          grep -rl "992000" target/linux/qualcommax/ | xargs -i sed -i 's/992000/1092000/g' {}
+          grep -rl "1048000" target/linux/qualcommax/ | xargs -i sed -i 's/1048000/1148000/g' {}
+          
+          # 2. 针对 0901 补丁做二次确认替换 (驱动底层)
+          PATCH_0901="target/linux/qualcommax/patches-6.12/0901-regulator-add-Qualcomm-CPR-regulators.patch"
+          if [ -f "$PATCH_0901" ]; then
+              sed -i 's/992000/1092000/g' "$PATCH_0901"
+              sed -i 's/1048000/1148000/g' "$PATCH_0901"
+          fi
+
+          # 3. 针对设备树源文件做“去封印”手术
+          DTS_FILE="target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-cpr-regulator.dtsi"
+          if [ -f "$DTS_FILE" ]; then
+              # 抬高天花板到 1.15V (防止计算值被截断)
+              sed -i 's/1064000/1150000/g' "$DTS_FILE"
+              # 物理删除封印行
+              sed -i '/qcom,cpr-scaled-open-loop-voltage-as-ceiling/d' "$DTS_FILE"
+              echo "DTS 封印已物理拆除"
+          fi
+
+          # 4. 这里的验证非常关键！
+          echo "验证修改结果（不应出现 992000）："
+          grep -r "992000" target/linux/qualcommax/ || echo "SUCCESS: 旧基准已彻底消失"
 
       - name: Custom Packages
         run: |
