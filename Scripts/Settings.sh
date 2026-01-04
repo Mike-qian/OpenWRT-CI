@@ -117,7 +117,7 @@ if [ -f "$FINAL_DTS" ]; then
 	/delete-property/ qcom,cpr-scaled-open-loop-voltage-as-ceiling;
 
 	/* 抬高电压天花板到 1.1V */
-	qcom,cpr-voltage-ceiling = <840000 904000 944000 984000 992000 1100000>;
+	qcom,cpr-voltage-ceiling = <840000 904000 944000 984000 1100000 1150000>;
 
 	/* 同步提升商值偏移，确保环路反馈不报错 */
 	qcom,cpr-open-loop-quotient-adjustment-0 = <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>, <0 0 0 100>;
