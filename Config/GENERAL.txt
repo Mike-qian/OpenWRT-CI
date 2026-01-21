@@ -388,3 +388,5 @@ CONFIG_PACKAGE_fw3-compat=y
 CONFIG_PACKAGE_iptables-mod-extra=y
 CONFIG_PACKAGE_iptables-mod-tproxy=y
 CONFIG_PACKAGE_nftables-extra=y
+
+CONFIG_PACKAGE_xz-utils=y
