@@ -102,5 +102,4 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 
 
 
-wget -O target/linux/qualcommax/config-6.12 https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/config-6.12
 
