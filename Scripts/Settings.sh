@@ -102,9 +102,19 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 
 
 
-echo "CONFIG_ARM64_CRC32=y" >> .config
-echo "CONFIG_CRYPTO_CRC32_ARM64_CE=y" >> .config
-echo "CONFIG_CRYPTO_CRC32C_ARM64_CE=y" >> .config
-echo "CONFIG_CRC32_ARCH=y" >> .config
-sed -i 's/CONFIG_CRYPTO_CRC32=m/CONFIG_CRYPTO_CRC32=y/g' .config
-sed -i 's/CONFIG_CRYPTO_CRC32C=m/CONFIG_CRYPTO_CRC32C=y/g' .config
+CONF_FILE="target/linux/qualcommax/ipq807x/config-6.12"
+[ ! -f "$CONF_FILE" ] && CONF_FILE=$(find target/linux/qualcommax/ -name "config-*" | head -n 1)
+
+if [ -f "$CONF_FILE" ]; then
+    echo "正在注入硬件加速配置到 $CONF_FILE ..."
+    {
+        echo "CONFIG_ARM64_CRC32=y"
+        echo "CONFIG_CRC32_ARCH=y"
+        echo "CONFIG_CRYPTO_CRC32_ARM64_CE=y"
+        echo "CONFIG_CRYPTO_CRC32C_ARM64_CE=y"
+        echo "CONFIG_KERNEL_MODE_NEON=y"
+        echo "CONFIG_CRYPTO_SIMD=y"
+    } >> "$CONF_FILE"
+else
+    echo "未找到内核配置文件，请检查路径！"
+fi
