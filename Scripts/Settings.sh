@@ -104,13 +104,3 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 
 wget -O target/linux/qualcommax/config-6.12 https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/config-6.12
 
-./scripts/config --enable CONFIG_CRC32
-./scripts/config --enable CONFIG_CRC32_ARM64
-./scripts/config --enable CONFIG_CRC32C
-./scripts/config --enable CONFIG_CRC32C_ARM64
-./scripts/config --enable CONFIG_CRYPTO_CRC32
-./scripts/config --enable CONFIG_CRYPTO_CRC32_ARM64
-./scripts/config --enable CONFIG_CRYPTO_CRC32_ARM64_CE
-./scripts/config --enable CONFIG_CRYPTO_CRC32C
-./scripts/config --enable CONFIG_CRYPTO_CRC32C_ARM64
-./scripts/config --enable CONFIG_ARM64_CRYPTO
