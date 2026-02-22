@@ -390,3 +390,6 @@ CONFIG_PACKAGE_iptables-mod-tproxy=y
 CONFIG_PACKAGE_nftables-extra=y
 
 CONFIG_PACKAGE_xz-utils=y
+
+CONFIG_ARM64_CRC32=y
+CONFIG_CRC32_ARCH=y
