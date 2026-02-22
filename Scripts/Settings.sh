@@ -101,7 +101,8 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-sto
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
 
-# 修改 crypto-crc32，使其在 arm64 架构下加载硬件加速模块
-sed -i '/KernelPackage\/crypto-crc32/,/eval/s|FILES:=.*|FILES:=$(LINUX_DIR)/crypto/crc32_generic.ko $(LINUX_DIR)/arch/arm64/crypto/crc32-arm64.ko\n  AUTOLOAD:=$(call AutoLoad,04,crc32_generic crc32-arm64,1)|' package/kernel/linux/modules/crypto.mk
-# 修改 crypto-crc32c，使其在 arm64 架构下加载硬件加速模块
-sed -i '/KernelPackage\/crypto-crc32c/,/eval/s|FILES:=.*|FILES:=$(LINUX_DIR)/crypto/crc32c_generic.ko $(LINUX_DIR)/arch/arm64/crypto/crc32-arm64.ko\n  AUTOLOAD:=$(call AutoLoad,04,crc32c_generic crc32-arm64,1)|' package/kernel/linux/modules/crypto.mk
+
+sed -i 's|$(LINUX_DIR)/crypto/crc32_generic.ko|$(LINUX_DIR)/crypto/crc32_generic.ko $(wildcard $(LINUX_DIR)/arch/arm64/crypto/crc32-arm64.ko)|' package/kernel/linux/modules/crypto.mk
+sed -i 's|$(LINUX_DIR)/crypto/crc32c_generic.ko|$(LINUX_DIR)/crypto/crc32c_generic.ko $(wildcard $(LINUX_DIR)/arch/arm64/crypto/crc32-arm64.ko)|' package/kernel/linux/modules/crypto.mk
+sed -i 's|AutoLoad,04,crc32_generic,1|AutoLoad,04,crc32_generic crc32-arm64,1|' package/kernel/linux/modules/crypto.mk
+sed -i 's|AutoLoad,04,crc32c_generic,1|AutoLoad,04,crc32c_generic crc32-arm64,1|' package/kernel/linux/modules/crypto.mk
