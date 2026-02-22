@@ -102,7 +102,9 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 
 
 
-sed -i 's|$(LINUX_DIR)/crypto/crc32_generic.ko|$(LINUX_DIR)/crypto/crc32_generic.ko $(wildcard $(LINUX_DIR)/arch/arm64/crypto/crc32-arm64.ko)|' package/kernel/linux/modules/crypto.mk
-sed -i 's|$(LINUX_DIR)/crypto/crc32c_generic.ko|$(LINUX_DIR)/crypto/crc32c_generic.ko $(wildcard $(LINUX_DIR)/arch/arm64/crypto/crc32-arm64.ko)|' package/kernel/linux/modules/crypto.mk
-sed -i 's|AutoLoad,04,crc32_generic,1|AutoLoad,04,crc32_generic crc32-arm64,1|' package/kernel/linux/modules/crypto.mk
-sed -i 's|AutoLoad,04,crc32c_generic,1|AutoLoad,04,crc32c_generic crc32-arm64,1|' package/kernel/linux/modules/crypto.mk
+echo "CONFIG_ARM64_CRC32=y" >> .config
+echo "CONFIG_CRYPTO_CRC32_ARM64_CE=y" >> .config
+echo "CONFIG_CRYPTO_CRC32C_ARM64_CE=y" >> .config
+echo "CONFIG_CRC32_ARCH=y" >> .config
+sed -i 's/CONFIG_CRYPTO_CRC32=m/CONFIG_CRYPTO_CRC32=y/g' .config
+sed -i 's/CONFIG_CRYPTO_CRC32C=m/CONFIG_CRYPTO_CRC32C=y/g' .config
