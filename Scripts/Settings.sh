@@ -101,5 +101,7 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-sto
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
 
-
+mkdir -p package/base-files/files/etc/uci-defaults && \
+curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-Start-Preset -o package/base-files/files/etc/uci-defaults/99-Start-Preset && \
+curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-replace-apk-mirrors -o package/base-files/files/etc/uci-defaults/99-replace-apk-mirrors
 
