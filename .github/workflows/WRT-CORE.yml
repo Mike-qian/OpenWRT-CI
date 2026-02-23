@@ -153,16 +153,6 @@ jobs:
           mkdir -p $(dirname "$PATCH_PATH1")
           curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch -o "$PATCH_PATH1"  
           echo "Patch replaced successfully."
-
-          KERNEL_CONFIG="target/linux/qualcommax/config-6.12"
-          mkdir -p $(dirname "$KERNEL_CONFIG")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/config-6.12 -o "$KERNEL_CONFIG"
-          echo "Kernel config-6.12 replaced successfully."
-
-          KERNEL_SUB_CONFIG="target/linux/qualcommax/ipq807x/config-default"
-          mkdir -p $(dirname "$KERNEL_SUB_CONFIG")
-          curl -sSL https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/config-default -o "$KERNEL_SUB_CONFIG"
-          echo "Subtarget config-default replaced successfully."
           
           ./scripts/feeds update -a
           ./scripts/feeds install -a
