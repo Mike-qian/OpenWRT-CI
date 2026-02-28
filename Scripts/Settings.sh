@@ -102,6 +102,6 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 
 
 mkdir -p package/base-files/files/etc/uci-defaults && \
-curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-Start-Preset -o package/base-files/files/etc/uci-defaults/99-Start-Preset && \
+curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-Configure-ZRam -o package/base-files/files/etc/uci-defaults/99-Configure-ZRam && \
 curl -L https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/99-replace-apk-mirrors -o package/base-files/files/etc/uci-defaults/99-replace-apk-mirrors
 
