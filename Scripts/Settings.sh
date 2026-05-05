@@ -75,14 +75,34 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 	fi
 fi
 
-# 取消USB功能
-./scripts/config --disable CONFIG_USB_SUPPORT
-./scripts/config --disable CONFIG_DEFAULT_kmod-usb-dwc3
-./scripts/config --disable CONFIG_DEFAULT_kmod-usb-dwc3-qcom
-./scripts/config --disable CONFIG_DEFAULT_kmod-usb3
-./scripts/config --disable CONFIG_PACKAGE_kmod-usb-roles
-./scripts/config --disable CONFIG_PACKAGE_kmod-usb-core
-./scripts/config --disable CONFIG_PACKAGE_kmod-usb-common
-./scripts/config --disable CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2
-./scripts/config --disable CONFIG_PACKAGE_kmod-usb-phy-qcom-ss
-make defconfig
+
+# 1. 禁用核心硬件支持
+sed -i 's/CONFIG_USB_SUPPORT=y/# CONFIG_USB_SUPPORT is not set/' .config
+sed -i 's/CONFIG_EMMC_SUPPORT=y/# CONFIG_EMMC_SUPPORT is not set/' .config
+
+# 2. 禁用默认包含的 USB 相关驱动模块 (DWC3/USB3)
+sed -i 's/CONFIG_DEFAULT_automount=y/# CONFIG_DEFAULT_automount is not set/' .config
+sed -i 's/CONFIG_DEFAULT_kmod-usb3=y/# CONFIG_DEFAULT_kmod-usb3 is not set/' .config
+sed -i 's/CONFIG_DEFAULT_kmod-usb-dwc3=y/# CONFIG_DEFAULT_kmod-usb-dwc3 is not set/' .config
+sed -i 's/CONFIG_DEFAULT_kmod-usb-dwc3-qcom=y/# CONFIG_DEFAULT_kmod-usb-dwc3-qcom is not set/' .config
+
+# 3. 禁用分区与磁盘管理工具 (fdisk/gdisk/blkid等)
+sed -i 's/CONFIG_PACKAGE_blkid=y/# CONFIG_PACKAGE_blkid is not set/' .config
+sed -i 's/CONFIG_PACKAGE_fdisk=y/# CONFIG_PACKAGE_fdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_parted=y/# CONFIG_PACKAGE_parted is not set/' .config
+sed -i 's/CONFIG_PACKAGE_sfdisk=y/# CONFIG_PACKAGE_sfdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_cgdisk=y/# CONFIG_PACKAGE_cgdisk is not set/' .config
+sed -i 's/CONFIG_PACKAGE_gdisk=y/# CONFIG_PACKAGE_gdisk is not set/' .config
+
+# 4. 禁用文件系统工具与挂载服务
+sed -i 's/CONFIG_DEFAULT_e2fsprogs=y/# CONFIG_DEFAULT_e2fsprogs is not set/' .config
+sed -i 's/CONFIG_DEFAULT_f2fs-tools=y/# CONFIG_DEFAULT_f2fs-tools is not set/' .config
+sed -i 's/CONFIG_PACKAGE_block-mount=y/# CONFIG_PACKAGE_block-mount is not set/' .config
+
+# 5. 禁用 USB 核心内核模块 (kmod-usb-*)
+sed -i 's/CONFIG_PACKAGE_kmod-usb-common=y/# CONFIG_PACKAGE_kmod-usb-common is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-core=y/# CONFIG_PACKAGE_kmod-usb-core is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
+
