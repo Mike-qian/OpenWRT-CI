@@ -108,3 +108,21 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storag
 
 sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2 is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-ss=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-ss is not set/' .config
+
+
+# 打入频率补丁
+PATCH_DIR=$(ls -d target/linux/qualcommax/patches-6.* 2>/dev/null | tail -n 1)
+if [ -n "$PATCH_DIR" ]; then
+    echo "检测到内核补丁目录: $PATCH_DIR"
+    PATCH_FILE="$PATCH_DIR/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch"
+    curl -fsSL "https://raw.githubusercontent.com/Mike-qian/OpenWRT-CI/refs/heads/main/0130-arm64-dts-qcom-ipq8074-add-CPU-OPP-table.patch" -o "$PATCH_FILE"
+    if [ $? -eq 0 ]; then
+        echo "补丁已成功下载并替换到: $PATCH_FILE"
+    else
+        echo "错误：补丁下载失败，请检查网络或 URL 是否正确。"
+        exit 1
+    fi
+else
+    echo "错误：未找到 target/linux/qualcommax/patches-6.* 目录，请检查源码结构。"
+    exit 1
+fi
