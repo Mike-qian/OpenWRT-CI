@@ -78,7 +78,7 @@ fi
 
 # 1. 禁用核心硬件支持
 sed -i 's/CONFIG_USB_SUPPORT=y/# CONFIG_USB_SUPPORT is not set/' .config
-sed -i 's/CONFIG_EMMC_SUPPORT=y/# CONFIG_EMMC_SUPPORT is not set/' .config
+# sed -i 's/CONFIG_EMMC_SUPPORT=y/# CONFIG_EMMC_SUPPORT is not set/' .config
 
 # 2. 禁用默认包含的 USB 相关驱动模块 (DWC3/USB3)
 sed -i 's/CONFIG_DEFAULT_automount=y/# CONFIG_DEFAULT_automount is not set/' .config
@@ -106,3 +106,5 @@ sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
 
+sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-ss=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-ss is not set/' .config
