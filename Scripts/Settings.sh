@@ -75,9 +75,12 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 	fi
 fi
 
-# 取消选中 USB 支持
+# 取消USB功能
 ./scripts/config --disable CONFIG_USB_SUPPORT
 ./scripts/config --disable CONFIG_DEFAULT_kmod-usb-dwc3
 ./scripts/config --disable CONFIG_DEFAULT_kmod-usb-dwc3-qcom
 ./scripts/config --disable CONFIG_DEFAULT_kmod-usb3
+./scripts/config --disable CONFIG_PACKAGE_kmod-usb-roles
+./scripts/config --disable CONFIG_PACKAGE_kmod-usb-core
+./scripts/config --disable CONFIG_PACKAGE_kmod-usb-common
 make defconfig
