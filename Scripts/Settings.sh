@@ -83,4 +83,6 @@ fi
 ./scripts/config --disable CONFIG_PACKAGE_kmod-usb-roles
 ./scripts/config --disable CONFIG_PACKAGE_kmod-usb-core
 ./scripts/config --disable CONFIG_PACKAGE_kmod-usb-common
+./scripts/config --disable CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2
+./scripts/config --disable CONFIG_PACKAGE_kmod-usb-phy-qcom-ss
 make defconfig
