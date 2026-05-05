@@ -133,15 +133,24 @@ TARGET_CONFIG="target/linux/qualcommax/config-6.18"
 
 # 批量注入：CRC32 + AES + SHA 加速全家桶
 for cfg in \
+  "CONFIG_CRYPTO_MANAGER=y"\
+  "CONFIG_ARM64_CRYPTO=y" \
+  "CONFIG_KERNEL_MODE_NEON=y" \
+  "CONFIG_CRYPTO_SIMD=y" \
+  "CONFIG_CRYPTO_HASH=y" \
+  "CONFIG_BITREVERSE=y" \
+  "CONFIG_CRC32=y" \
+  "CONFIG_LIBCRC32C=y" \
   "CONFIG_ARM64_CRC32=y" \
   "CONFIG_CRYPTO_CRC32_ARM64_CE=y" \
   "CONFIG_CRYPTO_CRC32C_ARM64_CE=y" \
   "CONFIG_CRYPTO_AES_ARM64_CE_BLK=y" \
   "CONFIG_CRYPTO_AES_ARM64_CE_CCM=y" \
+  "CONFIG_CRYPTO_GHASH_ARM64_CE=y" \
   "CONFIG_CRYPTO_SHA1_ARM64_CE=y" \
   "CONFIG_CRYPTO_SHA2_ARM64_CE=y" \
   "CONFIG_CRYPTO_SHA512_ARM64_CE=y" \
-  "CONFIG_CRYPTO_GHASH_ARM64_CE=y"; \
+  "CONFIG_CRYPTO_USER_API_HASH=y"; \
 do
   CONF_KEY=$(echo $cfg | cut -d'=' -f1)
   # 清理旧行并追加新配置
@@ -150,12 +159,7 @@ do
 done
 
 # 确保 OpenWrt 层的模块也开启
-sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32=y" >> .config
-sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32c/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32c=y" >> .config
-sed -i '/CONFIG_PACKAGE_kmod-crypto-aes/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-aes=y" >> .config
+#sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32=y" >> .config
+#sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32c/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32c=y" >> .config
+#sed -i '/CONFIG_PACKAGE_kmod-crypto-aes/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-aes=y" >> .config
 
-# 刷新并清理，准备编译
-make defconfig
-make target/linux/clean
-
-echo "🚀 所有硬件加速配置已就绪！可以执行 make -j\$(nproc) 了。"
