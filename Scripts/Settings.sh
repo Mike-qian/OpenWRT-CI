@@ -74,3 +74,10 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 		echo "qualcommax set up nowifi successfully!"
 	fi
 fi
+
+# 取消选中 USB 支持
+./scripts/config --disable CONFIG_USB_SUPPORT
+./scripts/config --disable CONFIG_DEFAULT_kmod-usb-dwc3
+./scripts/config --disable CONFIG_DEFAULT_kmod-usb-dwc3-qcom
+./scripts/config --disable CONFIG_DEFAULT_kmod-usb3
+make defconfig
