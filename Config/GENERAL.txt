@@ -145,6 +145,9 @@ CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM=n
 CONFIG_OPENSSL_WITH_ARMV8_CRYPTO=y
 CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mtune=cortex-a53 -mcpu=cortex-a53 -fomit-frame-pointer -fno-plt -fuse-linker-plugin -funroll-loops -frename-registers -DUSE_PTHREAD -mno-outline-atomics -fno-semantic-interposition -fuse-ld=mold -ffunction-sections -fdata-sections -Wl,--gc-sections"
 
+CONFIG_CRYPTO_ARM64=y
+CONFIG_CRYPTO_AES_ARM64=y
+CONFIG_CRYPTO_GCM_ARM64=y
 CONFIG_PACKAGE_kmod-cryptodev=y
 CONFIG_PACKAGE_kmod-crypto-authenc=y
 CONFIG_PACKAGE_libopenssl-devcrypto=y
