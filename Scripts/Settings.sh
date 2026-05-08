@@ -163,3 +163,38 @@ done
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32c/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32c=y" >> .config
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-aes/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-aes=y" >> .config
 
+
+cat > /feeds/nss_packages/qca-nss-drv/patches/9999-fix-missing-prototype-nss_rmnet_rx.patch << 'EOF'
+--- a/nss_rmnet_rx.c
++++ b/nss_rmnet_rx.c
+@@ -44,6 +44,8 @@
+
+ #include "nss_rmnet_rx_log.h"
+
++bool nss_rmnet_rx_verify_if_num(uint32_t if_num);
++
+ /*
+  * nss_rmnet_rx_verify_if_num()
+  */
+EOF
+
+cat > feeds/nss_packages/ath11k-nss/patches/9999-fix-ath11k-nss-build.patch << 'EOF'
+--- a/drivers/net/wireless/ath/ath11k/nss.c
++++ b/drivers/net/wireless/ath/ath11k/nss.c
+@@ -14,6 +14,8 @@
+ #include <linux/if_ether.h>
+ #include <linux/bitfield.h>
+ #include <linux/if_vlan.h>
++#include <linux/timer.h>
++#include <linux/slab.h>
+
+ #include "nss_ath11k_cmn.h"
+ #include "nss_ath11k_base.h"
+@@ -1868,7 +1870,7 @@
+ static void ath11k_nss_mpp_timer_cb(struct timer_list *timer)
+ {
+        struct arvif_nss *nss =
+-               from_timer(nss, timer, mpp_expiry_timer);
++               from_timer(nss, timer, mpp_timer);
+ }
+EOF
