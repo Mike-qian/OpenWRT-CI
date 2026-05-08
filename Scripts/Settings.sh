@@ -163,18 +163,3 @@ done
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32c/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32c=y" >> .config
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-aes/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-aes=y" >> .config
 
-
-cat > feeds/nss_packages/qca-nss-drv/patches/9999-fix-missing-prototype-nss_rmnet_rx.patch << 'EOF'
---- a/nss_rmnet_rx.c
-+++ b/nss_rmnet_rx.c
-@@ -44,6 +44,8 @@
-
- #include "nss_rmnet_rx_log.h"
-
-+bool nss_rmnet_rx_verify_if_num(uint32_t if_num);
-+
- /*
-  * nss_rmnet_rx_verify_if_num()
-  */
-EOF
-
