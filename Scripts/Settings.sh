@@ -164,7 +164,7 @@ done
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-aes/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-aes=y" >> .config
 
 
-cat > /feeds/nss_packages/qca-nss-drv/patches/9999-fix-missing-prototype-nss_rmnet_rx.patch << 'EOF'
+cat > feeds/nss-packages/qca-nss-drv/patches/9999-fix-missing-prototype-nss_rmnet_rx.patch << 'EOF'
 --- a/nss_rmnet_rx.c
 +++ b/nss_rmnet_rx.c
 @@ -44,6 +44,8 @@
@@ -178,7 +178,7 @@ cat > /feeds/nss_packages/qca-nss-drv/patches/9999-fix-missing-prototype-nss_rmn
   */
 EOF
 
-cat > feeds/nss_packages/ath11k-nss/patches/9999-fix-ath11k-nss-build.patch << 'EOF'
+cat > feeds/nss-packages/ath11k-nss/patches/9999-fix-ath11k-nss-build.patch << 'EOF'
 --- a/drivers/net/wireless/ath/ath11k/nss.c
 +++ b/drivers/net/wireless/ath/ath11k/nss.c
 @@ -14,6 +14,8 @@
