@@ -80,13 +80,39 @@ fi
 sed -i 's/CONFIG_USB_SUPPORT=y/# CONFIG_USB_SUPPORT is not set/' .config
 sed -i 's/CONFIG_EMMC_SUPPORT=y/# CONFIG_EMMC_SUPPORT is not set/' .config
 
-# 2. 禁用默认包含的 USB 相关驱动模块 (DWC3/USB3)
+# 2. 禁用默认包含的 USB 控制器 + 自动挂载
 sed -i 's/CONFIG_DEFAULT_automount=y/# CONFIG_DEFAULT_automount is not set/' .config
 sed -i 's/CONFIG_DEFAULT_kmod-usb3=y/# CONFIG_DEFAULT_kmod-usb3 is not set/' .config
 sed -i 's/CONFIG_DEFAULT_kmod-usb-dwc3=y/# CONFIG_DEFAULT_kmod-usb-dwc3 is not set/' .config
 sed -i 's/CONFIG_DEFAULT_kmod-usb-dwc3-qcom=y/# CONFIG_DEFAULT_kmod-usb-dwc3-qcom is not set/' .config
 
-# 3. 禁用分区与磁盘管理工具
+# 3. 禁用 USB 物理层 + 控制器
+sed -i 's/CONFIG_PACKAGE_kmod-usb-dwc3=y/# CONFIG_PACKAGE_kmod-usb-dwc3 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-dwc3-qcom=y/# CONFIG_PACKAGE_kmod-usb-dwc3-qcom is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-ss=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-ss is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-roles=y/# CONFIG_PACKAGE_kmod-usb-roles is not set/' .config
+
+# 4. 禁用 USB 核心内核模块
+sed -i 's/CONFIG_PACKAGE_kmod-usb-common=y/# CONFIG_PACKAGE_kmod-usb-common is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-core=y/# CONFIG_PACKAGE_kmod-usb-core is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-core=m/# CONFIG_PACKAGE_kmod-usb-core is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb2=y/# CONFIG_PACKAGE_kmod-usb2 is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-ohci=y/# CONFIG_PACKAGE_kmod-usb-ohci is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-uhci=y/# CONFIG_PACKAGE_kmod-usb-uhci is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-ledtrig-usbport=y/# CONFIG_PACKAGE_kmod-usb-ledtrig-usbport is not set/' .config
+
+# 5. 禁用 USB 扩展功能（modem/打印机/网络/串口）
+sed -i 's/CONFIG_PACKAGE_usb-modeswitch=y/# CONFIG_PACKAGE_usb-modeswitch is not set/' .config
+sed -i 's/CONFIG_PACKAGE_usb-printer=y/# CONFIG_PACKAGE_usb-printer is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-acm=y/# CONFIG_PACKAGE_kmod-usb-acm is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-serial=y/# CONFIG_PACKAGE_kmod-usb-serial is not set/' .config
+sed -i 's/CONFIG_PACKAGE_kmod-usb-net=y/# CONFIG_PACKAGE_kmod-usb-net is not set/' .config
+
+# 6. 禁用分区与磁盘管理工具
 sed -i 's/CONFIG_PACKAGE_blkid=y/# CONFIG_PACKAGE_blkid is not set/' .config
 sed -i 's/CONFIG_PACKAGE_fdisk=y/# CONFIG_PACKAGE_fdisk is not set/' .config
 sed -i 's/CONFIG_PACKAGE_parted=y/# CONFIG_PACKAGE_parted is not set/' .config
@@ -97,7 +123,7 @@ sed -i 's/CONFIG_PACKAGE_cfdisk=y/# CONFIG_PACKAGE_cfdisk is not set/' .config
 sed -i 's/CONFIG_PACKAGE_lsblk=y/# CONFIG_PACKAGE_lsblk is not set/' .config
 sed -i 's/CONFIG_PACKAGE_hdparm=y/# CONFIG_PACKAGE_hdparm is not set/' .config
 
-# 4. 禁用文件系统工具与挂载服务
+# 7. 禁用文件系统工具与挂载服务
 sed -i 's/CONFIG_DEFAULT_e2fsprogs=y/# CONFIG_DEFAULT_e2fsprogs is not set/' .config
 sed -i 's/CONFIG_DEFAULT_f2fs-tools=y/# CONFIG_DEFAULT_f2fs-tools is not set/' .config
 sed -i 's/CONFIG_PACKAGE_block-mount=y/# CONFIG_PACKAGE_block-mount is not set/' .config
@@ -107,27 +133,7 @@ sed -i 's/CONFIG_PACKAGE_f2fs-tools=y/# CONFIG_PACKAGE_f2fs-tools is not set/' .
 sed -i 's/CONFIG_PACKAGE_mkf2fs=y/# CONFIG_PACKAGE_mkf2fs is not set/' .config
 sed -i 's/CONFIG_PACKAGE_ntfs-3g=y/# CONFIG_PACKAGE_ntfs-3g is not set/' .config
 
-# 5. 禁用 USB 核心内核模块
-sed -i 's/CONFIG_PACKAGE_kmod-usb-common=y/# CONFIG_PACKAGE_kmod-usb-common is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-core=y/# CONFIG_PACKAGE_kmod-usb-core is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-storage=y/# CONFIG_PACKAGE_kmod-usb-storage is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-extras=y/# CONFIG_PACKAGE_kmod-usb-storage-extras is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-storage-uas=y/# CONFIG_PACKAGE_kmod-usb-storage-uas is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-qusb2 is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-phy-qcom-ss=y/# CONFIG_PACKAGE_kmod-usb-phy-qcom-ss is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb2=y/# CONFIG_PACKAGE_kmod-usb2 is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-ohci=y/# CONFIG_PACKAGE_kmod-usb-ohci is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-uhci=y/# CONFIG_PACKAGE_kmod-usb-uhci is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-ledtrig-usbport=y/# CONFIG_PACKAGE_kmod-usb-ledtrig-usbport is not set/' .config
-
-# 6. 禁用 USB 扩展功能（modem/打印机/网络/串口）
-sed -i 's/CONFIG_PACKAGE_usb-modeswitch=y/# CONFIG_PACKAGE_usb-modeswitch is not set/' .config
-sed -i 's/CONFIG_PACKAGE_usb-printer=y/# CONFIG_PACKAGE_usb-printer is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-acm=y/# CONFIG_PACKAGE_kmod-usb-acm is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-serial=y/# CONFIG_PACKAGE_kmod-usb-serial is not set/' .config
-sed -i 's/CONFIG_PACKAGE_kmod-usb-net=y/# CONFIG_PACKAGE_kmod-usb-net is not set/' .config
-
-# 7. 禁用所有磁盘文件系统内核模块
+# 8. 禁用所有磁盘文件系统内核模块
 sed -i 's/CONFIG_PACKAGE_kmod-fs-ext4=y/# CONFIG_PACKAGE_kmod-fs-ext4 is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-fs-f2fs=y/# CONFIG_PACKAGE_kmod-fs-f2fs is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-fs-vfat=y/# CONFIG_PACKAGE_kmod-fs-vfat is not set/' .config
@@ -138,12 +144,12 @@ sed -i 's/CONFIG_PACKAGE_kmod-fs-hfsplus=y/# CONFIG_PACKAGE_kmod-fs-hfsplus is n
 sed -i 's/CONFIG_PACKAGE_kmod-fs-nfs=y/# CONFIG_PACKAGE_kmod-fs-nfs is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-fs-nfsd=y/# CONFIG_PACKAGE_kmod-fs-nfsd is not set/' .config
 
-# 8. 禁用 SD卡 / MMC / 读卡器支持
+# 9. 禁用 SD卡 / MMC / 读卡器支持
 sed -i 's/CONFIG_PACKAGE_kmod-mmc=y/# CONFIG_PACKAGE_kmod-mmc is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-sdhci=y/# CONFIG_PACKAGE_kmod-sdhci is not set/' .config
 sed -i 's/CONFIG_PACKAGE_kmod-sdhci-arasan=y/# CONFIG_PACKAGE_kmod-sdhci-arasan is not set/' .config
 
-# 9. 禁用 LuCI 磁盘管理插件
+# 10. 禁用 LuCI 磁盘管理插件
 sed -i 's/CONFIG_PACKAGE_luci-app-block=y/# CONFIG_PACKAGE_luci-app-block is not set/' .config
 sed -i 's/CONFIG_PACKAGE_luci-app-diskman=y/# CONFIG_PACKAGE_luci-app-diskman is not set/' .config
 sed -i 's/CONFIG_PACKAGE_luci-app-diskman-ui=y/# CONFIG_PACKAGE_luci-app-diskman-ui is not set/' .config
