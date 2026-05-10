@@ -173,35 +173,51 @@ else
 fi
 
 
-# 定义配置文件
+#!/bin/bash
 TARGET_CONFIG="target/linux/qualcommax/config-6.18"
+if [ ! -f "$TARGET_CONFIG" ]; then
+    echo "Error: Configuration file not found!"
+    exit 1
+fi
+CONFIG_LIST=(
+  "CONFIG_CRYPTO_MANAGER=y"
+  "CONFIG_ARM64_CRYPTO=y"
+  "CONFIG_KERNEL_MODE_NEON=y"
+  "CONFIG_CRYPTO_SIMD=y"
+  "CONFIG_CRYPTO_HASH=y"
+  "CONFIG_BITREVERSE=y"
+  "CONFIG_CRC32=y"
+  "CONFIG_LIBCRC32C=y"
+  "CONFIG_ARM64_CRC32=y"
+  "CONFIG_CRYPTO_CRC32_ARM64_CE=y"
+  "CONFIG_CRYPTO_CRC32C_ARM64_CE=y"
+  "CONFIG_CRYPTO_AES_ARM64_CE=y"
+  "CONFIG_CRYPTO_AES_ARM64_CE_BLK=y"
+  "CONFIG_CRYPTO_AES_ARM64_CE_CCM=y"
+  "CONFIG_CRYPTO_AES_ARM64_BS=y"
+  "CONFIG_CRYPTO_SHA1_ARM64_CE=y"
+  "CONFIG_CRYPTO_SHA2_ARM64_CE=y"
+  "CONFIG_CRYPTO_SHA256_ARM64=y"
+  "CONFIG_CRYPTO_SHA512_ARM64_CE=y"
+  "CONFIG_CRYPTO_GHASH_ARM64_CE=y"
+  "CONFIG_CRYPTO_SM3_ARM64_CE=y"
+  "CONFIG_CRYPTO_SM4_ARM64_CE=y"
+  "CONFIG_CRYPTO_USER_API_HASH=y"
+  "CONFIG_CRYPTO_CHACHA20_NEON=y"
+  "CONFIG_CRYPTO_POLY1305_ARM64=y"
+  "CONFIG_BPF_JIT=y"
+  "CONFIG_BPF_JIT_DEFAULT_ON=y"
+)
+echo "Injecting full crypto and optimization configs into $TARGET_CONFIG..."
 
-# 批量注入：CRC32 + AES + SHA 加速全家桶
-for cfg in \
-  "CONFIG_CRYPTO_MANAGER=y"\
-  "CONFIG_ARM64_CRYPTO=y" \
-  "CONFIG_KERNEL_MODE_NEON=y" \
-  "CONFIG_CRYPTO_SIMD=y" \
-  "CONFIG_CRYPTO_HASH=y" \
-  "CONFIG_BITREVERSE=y" \
-  "CONFIG_CRC32=y" \
-  "CONFIG_LIBCRC32C=y" \
-  "CONFIG_ARM64_CRC32=y" \
-  "CONFIG_CRYPTO_CRC32_ARM64_CE=y" \
-  "CONFIG_CRYPTO_CRC32C_ARM64_CE=y" \
-  "CONFIG_CRYPTO_AES_ARM64_CE_BLK=y" \
-  "CONFIG_CRYPTO_AES_ARM64_CE_CCM=y" \
-  "CONFIG_CRYPTO_GHASH_ARM64_CE=y" \
-  "CONFIG_CRYPTO_SHA1_ARM64_CE=y" \
-  "CONFIG_CRYPTO_SHA2_ARM64_CE=y" \
-  "CONFIG_CRYPTO_SHA512_ARM64_CE=y" \
-  "CONFIG_CRYPTO_USER_API_HASH=y"; \
-do
+for cfg in "${CONFIG_LIST[@]}"; do
   CONF_KEY=$(echo $cfg | cut -d'=' -f1)
-  # 清理旧行并追加新配置
-  sed -i "/$CONF_KEY/d" $TARGET_CONFIG
-  echo "$cfg" >> $TARGET_CONFIG
+  # 精准清理旧配置行，防止重复或冲突
+  sed -i "/^# $CONF_KEY is not set/d; /^$CONF_KEY=/d" "$TARGET_CONFIG"
+  echo "$cfg" >> "$TARGET_CONFIG"
 done
+
+echo "Done! 所有加密加速和 BPF 优化项已注入。"
 
 # 确保 OpenWrt 层的模块也开启
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32=y" >> .config
