@@ -204,6 +204,7 @@ CONFIG_BPF_JIT=y
 CONFIG_BPF_JIT_DEFAULT_ON=y
 EOF
 echo "Done! 所有加密加速和 BPF 优化项已注入。"
+make defconfig
 cat build_dir/target-aarch64_cortex-a53_musl/linux-qualcommax/linux-6.18/.config | grep -E "CRYPTO|BPF"
 # 确保 OpenWrt 层的模块也开启
 #sed -i '/CONFIG_PACKAGE_kmod-crypto-crc32/d' .config && echo "CONFIG_PACKAGE_kmod-crypto-crc32=y" >> .config
