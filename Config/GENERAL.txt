@@ -148,11 +148,11 @@ CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -mtune=cortex-a53 -mcpu=cortex-a53 -fomit-
 CONFIG_CRYPTO_ARM64=y
 CONFIG_CRYPTO_AES_ARM64=y
 CONFIG_CRYPTO_GCM_ARM64=y
-CONFIG_PACKAGE_kmod-cryptodev=y
+#CONFIG_PACKAGE_kmod-cryptodev=y
 CONFIG_PACKAGE_kmod-crypto-authenc=y
 CONFIG_PACKAGE_kmod-crypto-chacha20poly1305=y
-CONFIG_PACKAGE_kmod-crypto-sha256=y
-CONFIG_PACKAGE_kmod-crypto-cbc=y
+#CONFIG_PACKAGE_kmod-crypto-sha256=y
+#CONFIG_PACKAGE_kmod-crypto-cbc=y
 CONFIG_PACKAGE_libopenssl-devcrypto=y
 CONFIG_PACKAGE_kmod-qca-nss-cfi=y
 #CONFIG_PACKAGE_kmod-qca-nss-drv-igs=y
