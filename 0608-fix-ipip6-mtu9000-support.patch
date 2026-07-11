@@ -1,0 +1,10 @@
+--- a/net/ipv6/ip6_tunnel.c
++++ b/net/ipv6/ip6_tunnel.c
+@@ -1848,6 +1848,7 @@ static void ip6_tnl_dev_setup(struct net_device *dev)
+ 	dev->flags |= IFF_NOARP;
+ 	dev->addr_len = sizeof(struct in6_addr);
+ 	dev->features |= NETIF_F_LLTX;
++	dev->max_mtu = 9000;
+ 	netif_keep_dst(dev);
+
+ 	dev->features		|= IPXIPX_FEATURES;
