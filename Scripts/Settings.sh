@@ -173,7 +173,7 @@ else
 fi
 
 # 打入mtu补丁
-PATCH_DIR="target/linux/qualcommax/patches-6.18"
+PATCH_DIR="target\linux\generic\pending-6.18"
 if [ -d "$PATCH_DIR" ]; then
     echo "使用指定内核补丁目录: $PATCH_DIR"
     PATCH_FILE="$PATCH_DIR/667-fix-ipip6-mtu9000-support.patch"
