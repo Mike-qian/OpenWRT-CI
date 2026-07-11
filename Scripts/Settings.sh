@@ -176,8 +176,8 @@ fi
 PATCH_DIR="target/linux/qualcommax/patches-6.18"
 if [ -d "$PATCH_DIR" ]; then
     echo "使用指定内核补丁目录: $PATCH_DIR"
-    PATCH_FILE="$PATCH_DIR/0608-fix-ipip6-mtu9000-support.patch"
-    curl -fsSL "https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/0608-fix-ipip6-mtu9000-support.patch" -o "$PATCH_FILE"
+    PATCH_FILE="$PATCH_DIR/667-fix-ipip6-mtu9000-support.patch"
+    curl -fsSL "https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/667-fix-ipip6-mtu9000-support.patch" -o "$PATCH_FILE"
     if [ $? -eq 0 ]; then
         echo "补丁已成功下载并替换到: $PATCH_FILE"
     else
