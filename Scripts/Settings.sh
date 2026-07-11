@@ -171,20 +171,3 @@ else
     echo "错误：未找到 target/linux/qualcommax/patches-6.* 目录，请检查源码结构。"
     exit 1
 fi
-
-# 打入mtu补丁
-PATCH_DIR="target/linux/generic/pending-6.18"
-if [ -d "$PATCH_DIR" ]; then
-    echo "使用指定内核补丁目录: $PATCH_DIR"
-    PATCH_FILE="$PATCH_DIR/667-fix-ipip6-mtu9000-support.patch"
-    curl -fsSL "https://github.com/Mike-qian/OpenWRT-CI/raw/refs/heads/main/667-fix-ipip6-mtu9000-support.patch" -o "$PATCH_FILE"
-    if [ $? -eq 0 ]; then
-        echo "补丁已成功下载并替换到: $PATCH_FILE"
-    else
-        echo "错误：补丁下载失败，请检查网络或 URL 是否正确。"
-        exit 1
-    fi
-else
-    echo "错误：目录 $PATCH_DIR 不存在，请检查源码结构。"
-    exit 1
-fi
